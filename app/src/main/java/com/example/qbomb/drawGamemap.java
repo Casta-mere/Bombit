@@ -57,12 +57,16 @@ public class drawGamemap extends View {
     Paint mPaint = new Paint();
     Canvas mCanvas = new Canvas();
 
+    int player_x = 4;
+    int player_y = 1;
+
 
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         this.mCanvas = canvas;
+        findPlayer();
         paintMap();
     }
 
@@ -90,7 +94,37 @@ public class drawGamemap extends View {
 
     public void setMap(int[][] mapData){
         System.arraycopy(mapData, 0, gameMap, 0, mapData.length);
+        findPlayer();
         invalidate();  // 刷新画布
+    }
+
+    public void findPlayer(){
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                if(gameMap[i][j] == player){
+                    player_x = j;
+                    player_y = i;
+                    break;
+                }
+            }
+        }
+    }
+
+
+    public void moveUp(){
+        System.out.println("moveUp");
+    }
+    public void moveDown(){
+        System.out.println("moveDown");
+    }
+    public void moveLeft(){
+        System.out.println("moveLeft");
+    }
+    public void moveRight(){
+        System.out.println("moveRight");
+    }
+    public void Bomb(){
+        System.out.println("Bomb");
     }
 
 }
