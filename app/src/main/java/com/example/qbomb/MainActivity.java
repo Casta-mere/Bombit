@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
     drawGamemap gameView;
-    MapData mapData;
+    MapData map = new MapData();
     Button btn_up, btn_down, btn_left, btn_right, btn_bomb;
     boolean isButtonPressed = false;
     @Override
@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         btn_right.setOnTouchListener(this);
         btn_bomb.setOnTouchListener(this);
 
-        mapData.mapdata();
-        gameView.setMap(mapData.mapDataList.get(1));
+        gameView.setMap(map.mapDataList.get(1));
     }
 
     @Override

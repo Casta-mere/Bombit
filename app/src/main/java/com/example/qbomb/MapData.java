@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MapData {
     ArrayList<int [] []> mapDataList = new ArrayList<>();
 
-    void mapdata(){
+    public MapData(){
         int [] [] mapData1 = {
                 {1,1,1,1,1,1,1,1,1,1},
                 {1,0,0,0,2,0,0,0,0,1},

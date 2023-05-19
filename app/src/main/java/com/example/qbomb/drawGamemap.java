@@ -113,15 +113,35 @@ public class drawGamemap extends View {
 
     public void moveUp(){
         System.out.println("moveUp");
+        if (gameMap[player_y-1][player_x] == road){
+            gameMap[player_y][player_x] = road;
+            gameMap[player_y-1][player_x] = player;
+            invalidate();
+        }
     }
     public void moveDown(){
         System.out.println("moveDown");
+        if (gameMap[player_y+1][player_x] == road){
+            gameMap[player_y][player_x] = road;
+            gameMap[player_y+1][player_x] = player;
+            invalidate();
+        }
     }
     public void moveLeft(){
         System.out.println("moveLeft");
+        if (gameMap[player_y][player_x-1] == road){
+            gameMap[player_y][player_x] = road;
+            gameMap[player_y][player_x-1] = player;
+            invalidate();
+        }
     }
     public void moveRight(){
         System.out.println("moveRight");
+        if (gameMap[player_y][player_x+1] == road){
+            gameMap[player_y][player_x] = road;
+            gameMap[player_y][player_x+1] = player;
+            invalidate();
+        }
     }
     public void Bomb(){
         System.out.println("Bomb");
