@@ -1,7 +1,6 @@
 package com.example.qbomb;
 
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
+import com.example.MovingObj.Player;
 
 
 public class drawGamemap extends View {
@@ -27,12 +27,15 @@ public class drawGamemap extends View {
 
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
-    Bitmap bitmap_player ;
+    private static final int FRAME_RATE = 80;
 
-    private int mFrameWidth;
-    private int mFrameHeight;
-    private int mCurrentFrame = 0;
-    private static final int FRAME_RATE = 160;
+    private Player player1 = new Player(this.getContext());
+
+    Paint mPaint = new Paint();
+    Canvas mCanvas = new Canvas();
+
+    int player_x = 4;
+    int player_y = 1;
 
     int [ ][ ]  gameMap= {
             {1,1,1,1,1,1,1,1,1,1},
@@ -57,19 +60,12 @@ public class drawGamemap extends View {
     private void initdata(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.mushroom_down);
         bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
-        bitmap_player =  BitmapFactory.decodeResource(getResources(), R.drawable.player_red);
-        mFrameWidth = bitmap_player.getWidth()/6;
-        mFrameHeight = bitmap_player.getHeight()/4;
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 invalidate();
-                mCurrentFrame++;
-                if (mCurrentFrame >= 6) {
-                    mCurrentFrame = 0;
-                }
                 handler.postDelayed(this, FRAME_RATE);
             }
         }, FRAME_RATE);
@@ -85,13 +81,6 @@ public class drawGamemap extends View {
         height = specHeightSize;
         setMeasuredDimension(specWidthSize, specHeightSize);
     }
-
-    Paint mPaint = new Paint();
-    Canvas mCanvas = new Canvas();
-
-    int player_x = 4;
-    int player_y = 1;
-
 
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
@@ -128,14 +117,9 @@ public class drawGamemap extends View {
     }
 
     private void drawPlayer(int x, int y){
-        int left = mCurrentFrame * mFrameWidth;
-        int top = mFrameHeight;
-        int right = mFrameWidth;
-        int bottom = mFrameHeight;
         Rect rect = new Rect
                 ((width/MAP_WIDTH)*x, (height/MAP_HEIGHT)*y,(width/MAP_WIDTH)*(x+1),(height/MAP_HEIGHT)*(y+1));
-
-        Bitmap frameBitmap = Bitmap.createBitmap(bitmap_player, left, top, right, bottom);
+        Bitmap frameBitmap = player1.getBitmap();
         mCanvas.drawBitmap(frameBitmap, null, rect, mPaint);
     }
 
