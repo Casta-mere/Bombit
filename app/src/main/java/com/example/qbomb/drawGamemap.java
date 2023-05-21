@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -24,9 +25,14 @@ public class drawGamemap extends View {
     final int road = 0;
     final int player = 2;
 
-    Bitmap bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.mushroom_down);
-    Bitmap bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
-    Bitmap bitmap_player = BitmapFactory.decodeResource(getResources(), R.drawable.player_red);
+    Bitmap bitmap_wall ;
+    Bitmap bitmap_road ;
+    Bitmap bitmap_player ;
+
+    private int mFrameWidth;
+    private int mFrameHeight;
+    private int mCurrentFrame = 0;
+    private static final int FRAME_RATE = 160;
 
     int [ ][ ]  gameMap= {
             {1,1,1,1,1,1,1,1,1,1},
@@ -43,7 +49,33 @@ public class drawGamemap extends View {
     };
 
 
-    public drawGamemap (Context context, AttributeSet attrs) { super(context, attrs); }
+    public drawGamemap (Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initdata();
+    }
+
+    private void initdata(){
+        bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.mushroom_down);
+        bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.bomb);
+        bitmap_player =  BitmapFactory.decodeResource(getResources(), R.drawable.player_red);
+        mFrameWidth = bitmap_player.getWidth()/6;
+        mFrameHeight = bitmap_player.getHeight()/4;
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+                mCurrentFrame++;
+                if (mCurrentFrame >= 6) {
+                    mCurrentFrame = 0;
+                }
+                handler.postDelayed(this, FRAME_RATE);
+            }
+        }, FRAME_RATE);
+
+    }
+
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSper){
         super.onMeasure(widthMeasureSpec, heightMeasureSper);
@@ -96,9 +128,15 @@ public class drawGamemap extends View {
     }
 
     private void drawPlayer(int x, int y){
+        int left = mCurrentFrame * mFrameWidth;
+        int top = mFrameHeight;
+        int right = mFrameWidth;
+        int bottom = mFrameHeight;
         Rect rect = new Rect
                 ((width/MAP_WIDTH)*x, (height/MAP_HEIGHT)*y,(width/MAP_WIDTH)*(x+1),(height/MAP_HEIGHT)*(y+1));
-        mCanvas.drawBitmap(bitmap_player, null, rect, mPaint);
+
+        Bitmap frameBitmap = Bitmap.createBitmap(bitmap_player, left, top, right, bottom);
+        mCanvas.drawBitmap(frameBitmap, null, rect, mPaint);
     }
 
     public void setMap(int[][] mapData){
