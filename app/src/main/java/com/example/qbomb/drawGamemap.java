@@ -66,8 +66,8 @@ public class drawGamemap extends View {
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         this.mCanvas = canvas;
-        findPlayer();
         paintMap();
+        drawPlayer(player_x, player_y);
     }
 
     private void paintMap() {
@@ -85,61 +85,55 @@ public class drawGamemap extends View {
                         mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
                         break;
                     case player:
-                        mCanvas.drawBitmap(bitmap_player, null, rect, mPaint);
+                        player_y = i;
+                        player_x = j;
+                        gameMap[i][j] = road;
+                        mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
                         break;
                 }
             }
         }
     }
 
+    private void drawPlayer(int x, int y){
+        Rect rect = new Rect
+                ((width/MAP_WIDTH)*x, (height/MAP_HEIGHT)*y,(width/MAP_WIDTH)*(x+1),(height/MAP_HEIGHT)*(y+1));
+        mCanvas.drawBitmap(bitmap_player, null, rect, mPaint);
+    }
+
     public void setMap(int[][] mapData){
         System.arraycopy(mapData, 0, gameMap, 0, mapData.length);
-        findPlayer();
         invalidate();  // 刷新画布
     }
 
-    public void findPlayer(){
-        for (int i = 0; i < MAP_HEIGHT; i++) {
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                if(gameMap[i][j] == player){
-                    player_x = j;
-                    player_y = i;
-                    break;
-                }
-            }
-        }
-    }
 
 
     public void moveUp(){
         System.out.println("moveUp");
         if (gameMap[player_y-1][player_x] == road){
-            gameMap[player_y][player_x] = road;
-            gameMap[player_y-1][player_x] = player;
+            player_y--;
             invalidate();
         }
+        invalidate();
     }
     public void moveDown(){
         System.out.println("moveDown");
         if (gameMap[player_y+1][player_x] == road){
-            gameMap[player_y][player_x] = road;
-            gameMap[player_y+1][player_x] = player;
+            player_y++;
             invalidate();
         }
     }
     public void moveLeft(){
         System.out.println("moveLeft");
         if (gameMap[player_y][player_x-1] == road){
-            gameMap[player_y][player_x] = road;
-            gameMap[player_y][player_x-1] = player;
+            player_x--;
             invalidate();
         }
     }
     public void moveRight(){
         System.out.println("moveRight");
         if (gameMap[player_y][player_x+1] == road){
-            gameMap[player_y][player_x] = road;
-            gameMap[player_y][player_x+1] = player;
+            player_x++;
             invalidate();
         }
     }
