@@ -50,6 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         int ID = v.getId();
 
+        if (ID == R.id.actionBomb) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                setBomb();
+            }
+            return true;
+        }
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // 开始循环
@@ -85,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         gameView.moveLeft();
                     } else if (buttonId == R.id.actionRight) {
                         gameView.moveRight();
-                    } else if (buttonId == R.id.actionBomb) {
-                        gameView.Bomb();
                     }
                     // 循环执行
                     handler.postDelayed(this, 100);
@@ -103,6 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-
+    private void setBomb(){}
 
 }
