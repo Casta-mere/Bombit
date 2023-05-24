@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +22,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // 隐藏状态栏和导航栏
         View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        WindowInsetsController controller = decorView.getWindowInsetsController();
+        // 隐藏状态栏
+        controller.hide(WindowInsets.Type.statusBars());
+        // 隐藏导航栏
+        controller.hide(WindowInsets.Type.navigationBars());
+        controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        // 刘海屏适配
+        getWindow().setDecorFitsSystemWindows(false);
+
         setContentView(R.layout.gamemap);
+
         initView();
     }
 
