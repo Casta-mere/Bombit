@@ -24,10 +24,9 @@ public class drawGamemap extends View {
     private int height;
     final int wall = 1;
     final int road = 0;
-    final int player = 2;
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
-    private static final int FRAME_RATE = 80;
+    private static final int FRAME_RATE = 10;
     private static final float PLAYER_SPEED = 300f;
     private Player player1 = new Player(this.getContext());
     Paint mPaint = new Paint();
@@ -100,12 +99,6 @@ public class drawGamemap extends View {
                     case road:
                         mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
                         break;
-                    case player:
-                        player_y = i;
-                        player_x = j;
-                        gameMap[i][j] = road;
-                        mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
-                        break;
                 }
             }
         }
@@ -120,13 +113,33 @@ public class drawGamemap extends View {
         Bitmap frameBitmap = player1.getBitmap();
         mCanvas.drawBitmap(frameBitmap, null, rect, mPaint);
     }
+    private void draw_Player(Player p){
+        int x=p.getPlayer_x();
+        int y=p.getPlayer_y();
+        float left = (width/MAP_WIDTH)*x;
+        float top = (height/MAP_HEIGHT)*y;
+        float right = (width/MAP_WIDTH)*(x+1);
+        float bottom = (height/MAP_HEIGHT)*(y+1);
+
+        Rect rect = new Rect((int)left, (int)top, (int)right, (int)bottom);
+        Bitmap frameBitmap = p.getBitmap();
+        mCanvas.drawBitmap(frameBitmap, null, rect, mPaint);
+    }
+
     public void setMap(int[][] mapData){
         System.arraycopy(mapData, 0, gameMap, 0, mapData.length);
         invalidate();  // 刷新画布
     }
+    public boolean is_not_int(float a){
+        return a % 1 != 0;
+    }
+
     public void moveUp() {
+        if(is_not_int(player_y)|| is_not_int(player_x))
+            return;
         int x = (int) player_x;
         int y = (int) player_y;
+
         if (gameMap[y - 1][x] == road) {
             float startY = player_y;
             float targetY = y - 1;
@@ -146,6 +159,7 @@ public class drawGamemap extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     player_y = targetY;
+                    player1.setPlayer_y((int) player_y);
                     invalidate();
                 }
                 @Override
@@ -157,8 +171,10 @@ public class drawGamemap extends View {
         }
     }
     public void moveDown(){
-        int x = (int)player_x;
-        int y = (int)player_y;
+        if(is_not_int(player_y)|| is_not_int(player_x))
+            return;
+        int x = (int) player_x;
+        int y = (int) player_y;
         if (gameMap[y+1][x] == road) {
             float startY = player_y;
             float targetY = y + 1;
@@ -180,6 +196,7 @@ public class drawGamemap extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     player_y = targetY;
+                    player1.setPlayer_y((int)targetY);
                     invalidate();
                 }
 
@@ -195,6 +212,8 @@ public class drawGamemap extends View {
 
     }
     public void moveLeft(){
+        if(is_not_int(player_y)|| is_not_int(player_x))
+            return;
         int x = (int)player_x;
         int y = (int)player_y;
         if (gameMap[y][x-1] == road){
@@ -216,6 +235,7 @@ public class drawGamemap extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     player_x = targetX;
+                    player1.setPlayer_x((int) player_x);
                     invalidate();
                 }
                 @Override
@@ -227,6 +247,8 @@ public class drawGamemap extends View {
         }
     }
     public void moveRight(){
+        if(is_not_int(player_y)|| is_not_int(player_x))
+            return;
         int x = (int)player_x;
         int y = (int)player_y;
         if (gameMap[y][x+1] == road){
@@ -248,6 +270,7 @@ public class drawGamemap extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     player_x = targetX;
+                    player1.setPlayer_x((int) player_x);
                     invalidate();
                 }
                 @Override
@@ -258,7 +281,7 @@ public class drawGamemap extends View {
             playerAnimator.start();
         }
     }
-    public void Bomb(){
+    public void Bomb(int x,int y){
         System.out.println("Bomb");
     }
 }

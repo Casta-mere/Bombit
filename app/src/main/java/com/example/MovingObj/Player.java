@@ -8,13 +8,15 @@ import android.os.Handler;
 import com.example.qbomb.R;
 
 public class Player {
-    Bitmap bimap_player;
+    private Bitmap bimap_player;
     private int mFrameWidth;
     private int mFrameHeight;
     private final int FRAME_WIDTH_COUNT = 6;
     private final int FRAME_HEIGHT_COUNT = 4;
     private static int FRAME_RATE = 80;
     private int mCurrentFrame = 0;
+    private int player_x = 1;
+    private int player_y = 1;
     private final int player_src= R.drawable.player_red;
     public Player(Context context){
         initdata(context);
@@ -45,4 +47,27 @@ public class Player {
 
     }
 
+    public void setPlayer_place(int x, int y){
+        player_x = x;
+        player_y = y;
+    }
+    public void setPlayer_x(int x){
+        player_x = x;
+    }
+
+    public int getPlayer_x(){
+        return player_x;
+    }
+
+    public void setPlayer_y(int y){
+        player_y = y;
+    }
+
+    public int getPlayer_y(){
+        return player_y;
+    }
+
+    public void set_Bomb(){
+
+    }
 }
