@@ -141,6 +141,7 @@ public class drawGamemap extends View {
         int y = (int) player_y;
 
         if (gameMap[y - 1][x] == road) {
+            player1.goUp();
             float startY = player_y;
             float targetY = y - 1;
             if (playerAnimator != null) {
@@ -176,6 +177,7 @@ public class drawGamemap extends View {
         int x = (int) player_x;
         int y = (int) player_y;
         if (gameMap[y+1][x] == road) {
+            player1.goDown();
             float startY = player_y;
             float targetY = y + 1;
             if (playerAnimator != null) {
@@ -217,6 +219,7 @@ public class drawGamemap extends View {
         int x = (int)player_x;
         int y = (int)player_y;
         if (gameMap[y][x-1] == road){
+            player1.goLeft();
             float startX = player_x;
             float targetX = x - 1;
             if (playerAnimator != null) {
@@ -252,6 +255,7 @@ public class drawGamemap extends View {
         int x = (int)player_x;
         int y = (int)player_y;
         if (gameMap[y][x+1] == road){
+            player1.goRight();
             float startX = player_x;
             float targetX = x + 1;
             if (playerAnimator != null) {

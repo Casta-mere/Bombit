@@ -15,6 +15,7 @@ public class Player {
     private final int FRAME_HEIGHT_COUNT = 4;
     private static int FRAME_RATE = 80;
     private int mCurrentFrame = 0;
+    private int mCurrentHeight = 1;
     private int player_x = 1;
     private int player_y = 1;
     private final int player_src= R.drawable.player_red;
@@ -40,7 +41,7 @@ public class Player {
     }
     public Bitmap getBitmap(){
         int left = mCurrentFrame * mFrameWidth;
-        int top = mFrameHeight;
+        int top = mFrameHeight*mCurrentHeight;
         int right =  mFrameWidth;
         int bottom =  mFrameHeight;
         return Bitmap.createBitmap(bimap_player, left, top, right, bottom);
@@ -67,7 +68,10 @@ public class Player {
         return player_y;
     }
 
-    public void set_Bomb(){
+    public void set_Bomb(){}
+    public void goUp(){mCurrentHeight = 0;}
+    public void goDown(){mCurrentHeight = 1;}
+    public void goLeft(){mCurrentHeight = 2;}
+    public void goRight(){mCurrentHeight = 3;}
 
-    }
 }
