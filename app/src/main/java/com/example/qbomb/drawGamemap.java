@@ -17,10 +17,11 @@ import android.view.animation.LinearInterpolator;
 
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
+import com.example.MovingObj.BombListener;
 
 import java.util.ArrayList;
 
-public class drawGamemap extends View {
+public class drawGamemap extends View implements BombListener {
     final int MAP_HEIGHT =15;
     final int MAP_WIDTH = 15;
     private int width;
@@ -29,8 +30,8 @@ public class drawGamemap extends View {
     final int road = 0;
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
-    private static final int FRAME_RATE = 10;
-    private static final float PLAYER_SPEED = 300f;
+    private static final int FRAME_RATE = 16;
+    private static final float PLAYER_SPEED = 200f;
     private Player player1 = new Player(this.getContext());
     Paint mPaint = new Paint();
     Canvas mCanvas = new Canvas();
@@ -87,10 +88,11 @@ public class drawGamemap extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         this.mCanvas = canvas;
         paintMap();
-        drawPlayer(player_x, player_y);
         for (int i = 0; i < my_bombs.size(); i++) {
-            my_bombs.get(i).drawBomb(canvas, mPaint, width, height, MAP_WIDTH, MAP_HEIGHT);
+            my_bombs.get(i).drawBomb(canvas, mPaint, width, height);
         }
+        drawPlayer(player_x, player_y);
+
     }
     private void paintMap() {
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -293,8 +295,9 @@ public class drawGamemap extends View {
         }
     }
     public void setBomb(int x,int y,int bombPower){
-        Bomb bomb = new Bomb(getContext(),x,y,bombPower);
+        Bomb bomb = new Bomb(getContext(),x,y,bombPower,this);
         my_bombs.add(bomb);
+        new Thread(bomb).start();
         System.out.println("New Bomb");
     }
 
@@ -303,5 +306,10 @@ public class drawGamemap extends View {
         int y = (int) player_y;
         int bombPower = 1;
         setBomb(x,y,bombPower);
+    }
+
+    @Override
+    public void onBombExplode(Bomb bomb) {
+        my_bombs.remove(bomb);
     }
 }
