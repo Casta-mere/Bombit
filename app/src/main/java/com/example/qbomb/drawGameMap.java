@@ -1,6 +1,5 @@
 package com.example.qbomb;
 
-
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -21,15 +20,17 @@ import com.example.MovingObj.BombListener;
 
 import java.util.ArrayList;
 
-public class drawGamemap extends View implements BombListener {
+public class drawGameMap extends View implements BombListener {
     final int MAP_HEIGHT =15;
     final int MAP_WIDTH = 15;
     private int width;
     private int height;
     final int wall = 1;
     final int road = 0;
+    final int block = 2;
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
+    Bitmap bitmap_block;
     private static final int FRAME_RATE = 16;
     private static final float PLAYER_SPEED = 200f;
     private Player player1 = new Player(this.getContext());
@@ -56,13 +57,14 @@ public class drawGamemap extends View implements BombListener {
     };
     private ValueAnimator playerAnimator = new ValueAnimator();
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
-    public drawGamemap (Context context, AttributeSet attrs) {
+    public drawGameMap(Context context, AttributeSet attrs) {
         super(context, attrs);
         initdata();
     }
     private void initdata(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
         bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.path_1);
+        bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.desert_grass_b_layer);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -107,6 +109,10 @@ public class drawGamemap extends View implements BombListener {
                         break;
                     case road:
                         mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
+                        break;
+                    case block:
+                        mCanvas.drawBitmap(bitmap_road, null, rect, mPaint);
+                        mCanvas.drawBitmap(bitmap_block, null, rect, mPaint);
                         break;
                 }
             }
@@ -161,7 +167,7 @@ public class drawGamemap extends View implements BombListener {
             playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
             playerAnimator.addUpdateListener(animation -> {
                 player_y = (float) animation.getAnimatedValue();
-                invalidate();
+//                invalidate();
             });
             playerAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -197,7 +203,7 @@ public class drawGamemap extends View implements BombListener {
             playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
             playerAnimator.addUpdateListener(animation -> {
                 player_y = (float) animation.getAnimatedValue();
-                invalidate();
+//                invalidate();
             });
             playerAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -239,7 +245,7 @@ public class drawGamemap extends View implements BombListener {
             playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
             playerAnimator.addUpdateListener(animation -> {
                 player_x = (float) animation.getAnimatedValue();
-                invalidate();
+//                invalidate();
             });
             playerAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -275,7 +281,7 @@ public class drawGamemap extends View implements BombListener {
             playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
             playerAnimator.addUpdateListener(animation -> {
                 player_x = (float) animation.getAnimatedValue();
-                invalidate();
+//                invalidate();
             });
             playerAnimator.addListener(new Animator.AnimatorListener() {
                 @Override

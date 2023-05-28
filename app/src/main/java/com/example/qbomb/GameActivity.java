@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener{
-    drawGamemap gameView;
+    drawGameMap gameView;
     Button btn_up, btn_down, btn_left, btn_right, btn_bomb;
 
     @Override

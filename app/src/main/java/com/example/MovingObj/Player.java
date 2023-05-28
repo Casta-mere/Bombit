@@ -71,9 +71,9 @@ public class Player {
     }
 
     public void set_Bomb(){}
-    public void goUp(){mCurrentHeight = 0;}
-    public void goDown(){mCurrentHeight = 1;}
-    public void goLeft(){mCurrentHeight = 2;}
-    public void goRight(){mCurrentHeight = 3;}
+    public void goUp(){mCurrentHeight = 3;}
+    public void goDown(){mCurrentHeight = 0;}
+    public void goLeft(){mCurrentHeight = 1;}
+    public void goRight(){mCurrentHeight = 2;}
 
 }
