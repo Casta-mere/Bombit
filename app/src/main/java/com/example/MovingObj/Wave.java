@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.example.qbomb.MapData;
 import com.example.qbomb.R;
@@ -51,7 +52,11 @@ public class Wave {
         this.bombPower = bombPower;
         this.gameMap = gameMap;
         this.waveListener = waveListener;
-        Handler handler = new Handler();
+        Looper looper = Looper.myLooper();
+        if(looper == null){
+            looper=Looper.getMainLooper();
+        }
+        Handler handler = new Handler(looper);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
