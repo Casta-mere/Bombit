@@ -6,19 +6,20 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 
 import com.example.qbomb.R;
+import com.example.myfunctions.bitmapManipulate;
 
 public class Player {
     private Bitmap bimap_player;
     private int mFrameWidth;
     private int mFrameHeight;
-    private final int FRAME_WIDTH_COUNT = 6;
+    private final int FRAME_WIDTH_COUNT = 4;
     private final int FRAME_HEIGHT_COUNT = 4;
     private static int FRAME_RATE = 80;
     private int mCurrentFrame = 0;
     private int mCurrentHeight = 1;
     private int player_x = 1;
     private int player_y = 1;
-    private final int player_src= R.drawable.player_red;
+    private final int player_src= R.drawable.red3;
     public Player(Context context){
         initdata(context);
     }
@@ -41,11 +42,12 @@ public class Player {
     }
     public Bitmap getBitmap(){
         int left = mCurrentFrame * mFrameWidth;
-        int top = mFrameHeight*mCurrentHeight;
+        int top = mFrameHeight * mCurrentHeight;
         int right =  mFrameWidth;
         int bottom =  mFrameHeight;
-        return Bitmap.createBitmap(bimap_player, left, top, right, bottom);
-
+        Bitmap temp=Bitmap.createBitmap(bimap_player, left, top+2, right, bottom-2);
+        Bitmap ans=bitmapManipulate.chopInvisible(temp);
+        return ans;
     }
 
     public void setPlayer_place(int x, int y){

@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-    private void setBomb(){}
+    private void setBomb(){
+        gameView.playerSetBomb();
+    }
 
 }

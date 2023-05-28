@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.example.MovingObj.Player;
+import com.example.MovingObj.Bomb;
+
+import java.util.ArrayList;
 
 public class drawGamemap extends View {
     final int MAP_HEIGHT =15;
@@ -51,6 +54,7 @@ public class drawGamemap extends View {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     };
     private ValueAnimator playerAnimator = new ValueAnimator();
+    private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
     public drawGamemap (Context context, AttributeSet attrs) {
         super(context, attrs);
         initdata();
@@ -69,10 +73,10 @@ public class drawGamemap extends View {
         }, FRAME_RATE);
 
     }
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSper){
-        super.onMeasure(widthMeasureSpec, heightMeasureSper);
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int specHeightSize = MeasureSpec.getSize(heightMeasureSper);
+        int specHeightSize = MeasureSpec.getSize(heightMeasureSpec);
         width = specWidthSize;
         height = specHeightSize;
         setMeasuredDimension(specWidthSize, specHeightSize);
@@ -84,6 +88,9 @@ public class drawGamemap extends View {
         this.mCanvas = canvas;
         paintMap();
         drawPlayer(player_x, player_y);
+        for (int i = 0; i < my_bombs.size(); i++) {
+            my_bombs.get(i).drawBomb(canvas, mPaint, width, height, MAP_WIDTH, MAP_HEIGHT);
+        }
     }
     private void paintMap() {
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -139,9 +146,9 @@ public class drawGamemap extends View {
             return;
         int x = (int) player_x;
         int y = (int) player_y;
+        player1.goUp();
 
         if (gameMap[y - 1][x] == road) {
-            player1.goUp();
             float startY = player_y;
             float targetY = y - 1;
             if (playerAnimator != null) {
@@ -176,8 +183,8 @@ public class drawGamemap extends View {
             return;
         int x = (int) player_x;
         int y = (int) player_y;
+        player1.goDown();
         if (gameMap[y+1][x] == road) {
-            player1.goDown();
             float startY = player_y;
             float targetY = y + 1;
             if (playerAnimator != null) {
@@ -218,8 +225,8 @@ public class drawGamemap extends View {
             return;
         int x = (int)player_x;
         int y = (int)player_y;
+        player1.goLeft();
         if (gameMap[y][x-1] == road){
-            player1.goLeft();
             float startX = player_x;
             float targetX = x - 1;
             if (playerAnimator != null) {
@@ -254,8 +261,8 @@ public class drawGamemap extends View {
             return;
         int x = (int)player_x;
         int y = (int)player_y;
+        player1.goRight();
         if (gameMap[y][x+1] == road){
-            player1.goRight();
             float startX = player_x;
             float targetX = x + 1;
             if (playerAnimator != null) {
@@ -285,7 +292,16 @@ public class drawGamemap extends View {
             playerAnimator.start();
         }
     }
-    public void Bomb(int x,int y){
-        System.out.println("Bomb");
+    public void setBomb(int x,int y,int bombPower){
+        Bomb bomb = new Bomb(getContext(),x,y,bombPower);
+        my_bombs.add(bomb);
+        System.out.println("New Bomb");
+    }
+
+    public void playerSetBomb() {
+        int x = (int) player_x;
+        int y = (int) player_y;
+        int bombPower = 1;
+        setBomb(x,y,bombPower);
     }
 }

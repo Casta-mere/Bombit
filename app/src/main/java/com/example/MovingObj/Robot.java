@@ -54,4 +54,11 @@ public class Robot {
         robot_y = y;
     }
 
+    public void start_robot(){
+        while (true){
+
+        }
+
+    }
+
 }
