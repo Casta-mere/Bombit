@@ -64,9 +64,9 @@ public class Wave {
                 if (waveFrame >= waveOrder.length) {
                     finish();
                 }
-                handler.postDelayed(this, 50);
+                handler.postDelayed(this, 25);
             }
-        }, 50);
+        }, 25);
 
     }
 

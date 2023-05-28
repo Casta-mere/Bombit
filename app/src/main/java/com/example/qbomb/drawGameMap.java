@@ -320,18 +320,19 @@ public class drawGameMap extends View implements BombListener, WaveListener {
     public void playerSetBomb() {
         int x = (int) player_x;
         int y = (int) player_y;
-        int bombPower = 1;
+        int bombPower = 2;
         setBomb(x,y,bombPower);
     }
     @Override
     public void onBombExplode(Bomb bomb) {
-        bombBlock(bomb);
         my_bombs.remove(bomb);
 
 
-//        Wave wave = new Wave(getContext(),bomb.getBomb_x(),bomb.getBomb_y(),bomb.getBombPower(),gameMap,this);
-//        my_waves.add(wave);
-//        System.out.println("New Wave");
+        Wave wave = new Wave(getContext(),bomb.getBomb_x(),bomb.getBomb_y(),bomb.getBombPower(),gameMap,this);
+        my_waves.add(wave);
+        System.out.println("New Wave");
+
+        bombBlock(bomb);
     }
     @Override
     public void onWaveEnd(Wave wave) {
@@ -371,6 +372,8 @@ public class drawGameMap extends View implements BombListener, WaveListener {
             player1.setPlayer_y(1);
             player_x = 1;
             player_y = 1;
+        } else if(gameMap[y][x] == wall){
+            flag = true;
         }
         return flag;
     }
