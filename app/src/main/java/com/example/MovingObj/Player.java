@@ -5,29 +5,29 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 
-import com.example.qbomb.R;
 import com.example.myfunctions.bitmapManipulate;
 
 public class Player {
-    private Bitmap bimap_player;
-    private int mFrameWidth;
-    private int mFrameHeight;
-    private final int FRAME_WIDTH_COUNT = 4;
-    private final int FRAME_HEIGHT_COUNT = 4;
-    private static int FRAME_RATE = 80;
+    private static final int FRAME_WIDTH_COUNT = 4;
+    private static final int FRAME_HEIGHT_COUNT = 4;
+    private static int player_FrameWidth;
+    private static int player_FrameHeight;
+    private static int FRAME_RATE = 200;
+    private Bitmap[][] player;
+    private PlayerListener playerListener;
     private int mCurrentFrame = 0;
     private int mCurrentHeight = 1;
     private int player_x = 1;
     private int player_y = 1;
-    private final int player_src= R.drawable.red3;
-    public Player(Context context){
-        initdata(context);
-    }
-    private void initdata(Context context){
-        bimap_player = BitmapFactory.decodeResource(context.getResources(), player_src);
-        mFrameWidth = bimap_player.getWidth() / FRAME_WIDTH_COUNT;
-        mFrameHeight = bimap_player.getHeight() / FRAME_HEIGHT_COUNT;
+    private int player_src ;
+    private int player_speed = 1;
+    private int player_bomb_power = 1;
 
+    public Player(Context context,int player_src,PlayerListener playerListener){
+        initPlayerBitmap(context,player_src);
+        initData();
+    }
+    private void initData(){
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -40,14 +40,26 @@ public class Player {
             }
         }, FRAME_RATE);
     }
+    private void initPlayerBitmap(Context context,int player_src){
+        Bitmap player_all = BitmapFactory.decodeResource(context.getResources(), player_src);
+        player_FrameWidth = player_all.getWidth() / FRAME_WIDTH_COUNT;
+        player_FrameHeight = player_all.getHeight() / FRAME_HEIGHT_COUNT;
+        player = new Bitmap[FRAME_HEIGHT_COUNT][FRAME_WIDTH_COUNT];
+
+        for(int i=0;i<FRAME_HEIGHT_COUNT;i++){
+            for(int j=0;j<FRAME_WIDTH_COUNT;j++){
+                int left = j * player_FrameWidth;
+                int top = i * player_FrameHeight;
+                int right = player_FrameWidth;
+                int bottom = player_FrameHeight;
+
+                Bitmap bombFrame = Bitmap.createBitmap(player_all, left, top+2, right, bottom-2);
+                player[i][j] = bitmapManipulate.chopInvisible(bombFrame);
+            }
+        }
+    }
     public Bitmap getBitmap(){
-        int left = mCurrentFrame * mFrameWidth;
-        int top = mFrameHeight * mCurrentHeight;
-        int right =  mFrameWidth;
-        int bottom =  mFrameHeight;
-        Bitmap temp=Bitmap.createBitmap(bimap_player, left, top+2, right, bottom-2);
-        Bitmap ans=bitmapManipulate.chopInvisible(temp);
-        return ans;
+        return player[mCurrentHeight][mCurrentFrame];
     }
 
     public void setPlayer_place(int x, int y){
@@ -57,19 +69,15 @@ public class Player {
     public void setPlayer_x(int x){
         player_x = x;
     }
-
     public int getPlayer_x(){
         return player_x;
     }
-
     public void setPlayer_y(int y){
         player_y = y;
     }
-
     public int getPlayer_y(){
         return player_y;
     }
-
     public void set_Bomb(){}
     public void goUp(){mCurrentHeight = 3;}
     public void goDown(){mCurrentHeight = 0;}

@@ -17,10 +17,13 @@ import android.view.animation.LinearInterpolator;
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
 import com.example.MovingObj.BombListener;
+import com.example.MovingObj.PlayerListener;
+import com.example.MovingObj.Wave;
+import com.example.MovingObj.WaveListener;
 
 import java.util.ArrayList;
 
-public class drawGameMap extends View implements BombListener {
+public class drawGameMap extends View implements BombListener, WaveListener {
     final int MAP_HEIGHT =15;
     final int MAP_WIDTH = 15;
     private int width;
@@ -32,8 +35,13 @@ public class drawGameMap extends View implements BombListener {
     Bitmap bitmap_road ;
     Bitmap bitmap_block;
     private static final int FRAME_RATE = 16;
-    private static final float PLAYER_SPEED = 200f;
-    private Player player1 = new Player(this.getContext());
+    private static final float PLAYER_SPEED = 300f;
+    private Player player1 = new Player(this.getContext(), R.drawable.red3, new PlayerListener() {
+        @Override
+        public void onPlayerDead(Player player) {
+
+        }
+    });
     Paint mPaint = new Paint();
     Canvas mCanvas = new Canvas();
     float player_x = 4;
@@ -57,11 +65,12 @@ public class drawGameMap extends View implements BombListener {
     };
     private ValueAnimator playerAnimator = new ValueAnimator();
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
+    private ArrayList<Wave> my_waves = new ArrayList<Wave>();
     public drawGameMap(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initdata();
+        initData();
     }
-    private void initdata(){
+    private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
         bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.path_1);
         bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.desert_grass_b_layer);
@@ -92,6 +101,9 @@ public class drawGameMap extends View implements BombListener {
         paintMap();
         for (int i = 0; i < my_bombs.size(); i++) {
             my_bombs.get(i).drawBomb(canvas, mPaint, width, height);
+        }
+        for (int i = 0; i < my_waves.size(); i++) {
+            my_waves.get(i).drawWave(canvas, mPaint, width, height);
         }
         drawPlayer(player_x, player_y);
 
@@ -148,7 +160,6 @@ public class drawGameMap extends View implements BombListener {
     public boolean is_not_int(float a){
         return a % 1 != 0;
     }
-
     public void moveUp() {
         if(is_not_int(player_y)|| is_not_int(player_x))
             return;
@@ -306,16 +317,61 @@ public class drawGameMap extends View implements BombListener {
         new Thread(bomb).start();
         System.out.println("New Bomb");
     }
-
     public void playerSetBomb() {
         int x = (int) player_x;
         int y = (int) player_y;
         int bombPower = 1;
         setBomb(x,y,bombPower);
     }
-
     @Override
     public void onBombExplode(Bomb bomb) {
+        bombBlock(bomb);
         my_bombs.remove(bomb);
+
+
+//        Wave wave = new Wave(getContext(),bomb.getBomb_x(),bomb.getBomb_y(),bomb.getBombPower(),gameMap,this);
+//        my_waves.add(wave);
+//        System.out.println("New Wave");
+    }
+    @Override
+    public void onWaveEnd(Wave wave) {
+        my_waves.remove(wave);
+    }
+
+    public void bombBlock(Bomb bomb){
+        int power = bomb.getBombPower();
+        int x = bomb.getBomb_x();
+        int y = bomb.getBomb_y();
+        bombResult(x,y);
+        for(int i = 1;i<=power;i++){
+            if(bombResult(x+i,y))
+                break;
+        }
+        for(int i = 1;i<=power;i++){
+            if(bombResult(x-i,y))
+                break;
+        }
+        for(int i = 1;i<=power;i++){
+            if(bombResult(x,y+i))
+                break;
+        }
+        for(int i = 1;i<=power;i++){
+            if(bombResult(x,y-i))
+                break;
+        }
+
+    }
+    private boolean bombResult(int x,int y){
+        boolean flag = false;
+        if(gameMap[y][x] == block){
+            gameMap[y][x] = road;
+            flag = true;
+        }else if((int)player_x == x && (int)player_y == y){
+            player1.setPlayer_x(1);
+            player1.setPlayer_y(1);
+            player_x = 1;
+            player_y = 1;
+        }
+        return flag;
     }
 }

@@ -3,6 +3,11 @@ package com.example.qbomb;
 import java.util.ArrayList;
 
 public class MapData {
+    public static final int MAP_WIDTH = 15;
+    public static final int MAP_HEIGHT = 15;
+    public static final int WALL = 1;
+    public static final int ROAD = 0;
+    public static final int BLOCK = 2;
     ArrayList<int [] []> mapDataList = new ArrayList<>();
 
     public MapData(){
@@ -27,7 +32,7 @@ public class MapData {
         int [ ][ ]  mapData2= {
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                 {1,0,0,2,0,0,0,0,0,2,0,0,2,0,1},
-                {1,0,2,1,1,1,1,1,2,1,2,1,1,2,1},
+                {1,0,2,1,1,1,1,1,0,1,2,1,1,2,1},
                 {1,2,1,2,2,0,2,0,0,0,0,0,1,0,1},
                 {1,0,1,0,1,1,1,1,1,1,2,0,1,2,1},
                 {1,0,1,2,1,0,0,0,0,0,1,0,1,0,1},

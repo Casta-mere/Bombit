@@ -86,7 +86,7 @@ public class Bomb implements Runnable{
     @Override
     public void run() {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
             explode();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -97,4 +97,8 @@ public class Bomb implements Runnable{
         isExplode = true;
         bombListener.onBombExplode(this);
     }
+
+    public int getBomb_x() {return x;}
+    public int getBomb_y() {return y;}
+    public int getBombPower() {return bombPower;}
 }
