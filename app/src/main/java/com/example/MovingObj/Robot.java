@@ -27,7 +27,7 @@ public class Robot extends Player {
                     handler.removeCallbacksAndMessages(this);
                     return;
                 }
-                int direction = (int) (Math.random() * 4);
+                int direction = (int) (Math.random() * 5);
                 switch (direction) {
                     case 0:
                         moveUp();
@@ -41,43 +41,13 @@ public class Robot extends Player {
                     case 3:
                         moveRight();
                         break;
+                    case 4:
+                        set_Bomb();
+                        break;
                 }
-                set_Bomb();
                 handler.postDelayed(this,100);
             }
         },0);
     }
-//    public void run(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (isAlive) {
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    if (isAlive) {
-//                        int direction = (int) (Math.random() * 4);
-//                        switch (direction) {
-//                            case 0:
-//                                moveUp();
-//                                break;
-//                            case 1:
-//                                moveDown();
-//                                break;
-//                            case 2:
-//                                moveLeft();
-//                                break;
-//                            case 3:
-//                                moveRight();
-//                                break;
-//                        }
-//                    }
-//                }
-//            }
-//        }).start();
-//    }
-
 
 }

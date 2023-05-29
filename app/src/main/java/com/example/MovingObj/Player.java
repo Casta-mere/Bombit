@@ -28,7 +28,7 @@ public class Player extends MovingObjects {
     private int player_place_y;
     private float player_speed = 300f;
     private int player_bomb_power = 1;
-    private int bombMax = 1;
+    private int bombMax = 2;
     private int bombCurrent = 0;
     private int life = 2;
     protected boolean isAlive = true;
