@@ -63,7 +63,6 @@ public class Wave {
             @Override
             public void run() {
                 waveFrame++;
-                System.out.println("here");
                 if (waveFrame >= waveOrder.length) {
                     finish();
                     handler.removeCallbacksAndMessages(this);

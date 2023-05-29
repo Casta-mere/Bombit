@@ -325,7 +325,11 @@ public class drawGameMap extends View implements BombListener, WaveListener {
     }
     @Override
     public void onBombExplode(Bomb bomb) {
-        Wave wave = new Wave(getContext(),bomb.getBomb_x(),bomb.getBomb_y(),bomb.getBombPower(),gameMap.clone(),this);
+        int [][] map = new int[MAP_HEIGHT][MAP_WIDTH];
+        for(int i =0;i<MAP_HEIGHT;i++){
+            System.arraycopy(gameMap[i],0,map[i],0,MAP_WIDTH);
+        }
+        Wave wave = new Wave(getContext(),bomb.getBomb_x(),bomb.getBomb_y(),bomb.getBombPower(),map,this);
         my_waves.add(wave);
 
         bombBlock(wave.getX(),wave.getY(),wave.getBombPower());
