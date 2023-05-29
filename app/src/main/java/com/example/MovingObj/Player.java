@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 
 import com.example.myfunctions.bitmapManipulate;
+import com.example.qbomb.MapData;
 
 public class Player extends MovingObjects {
     private static final int FRAME_WIDTH_COUNT = 4;
@@ -23,8 +24,12 @@ public class Player extends MovingObjects {
     private int player_place_x;
     private float player_y;
     private int player_place_y;
-    private float player_speed = 200f;
+    private float player_speed = 300f;
     private int player_bomb_power = 1;
+    private int bombMax = 1;
+    private int bombCurrent = 0;
+    private int life = 1;
+    private boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     public Player(Context context,int player_src,PlayerListener playerListener,int x,int y,int[][] gameMap){
         initPlayerBitmap(context,player_src);
@@ -102,7 +107,11 @@ public class Player extends MovingObjects {
     public int getPlayer_bomb_power(){
         return player_bomb_power;
     }
-    public void set_Bomb(){}
+    public boolean canSetBomb(){
+        return bombCurrent < bombMax;
+    }
+    public void set_Bomb(){bombCurrent++;}
+    public void Bomb_explode(){bombCurrent--;}
     public void directionUp(){mCurrentHeight = 3;}
     public void directionDown(){mCurrentHeight = 0;}
     public void directionLeft(){mCurrentHeight = 1;}
@@ -113,7 +122,8 @@ public class Player extends MovingObjects {
             return;
         directionUp();
 
-        if(gameMap[player_place_y-1][player_place_x] == 0){
+        int nextPlaceType = gameMap[player_place_y-1][player_place_x];
+        if(MapData.walk_able(nextPlaceType)){
             player_place_y--;
             setAnimator((int)player_x,(int)player_y,(int)player_x,(int)player_y-1);
         }
@@ -123,7 +133,8 @@ public class Player extends MovingObjects {
             return;
         directionDown();
 
-        if(gameMap[player_place_y+1][player_place_x] == 0){
+        int nextPlaceType = gameMap[player_place_y+1][player_place_x];
+        if (MapData.walk_able(nextPlaceType)) {
             player_place_y++;
             setAnimator((int)player_x,(int)player_y,(int)player_x,(int)player_y+1);
         }
@@ -133,7 +144,8 @@ public class Player extends MovingObjects {
             return;
         directionLeft();
 
-        if(gameMap[player_place_y][player_place_x-1] == 0){
+        int nextPlaceType = gameMap[player_place_y][player_place_x-1];
+        if(MapData.walk_able(nextPlaceType)){
             player_place_x--;
             setAnimator((int)player_x,(int)player_y,(int)player_x-1,(int)player_y);
         }
@@ -143,12 +155,12 @@ public class Player extends MovingObjects {
             return;
         directionRight();
 
-        if(gameMap[player_place_y][player_place_x+1] == 0){
+        int nextPlaceType = gameMap[player_place_y][player_place_x+1];
+        if(MapData.walk_able(nextPlaceType)){
             player_place_x++;
             setAnimator((int)player_x,(int)player_y,(int)player_x+1,(int)player_y);
         }
     }
-
     public void setAnimator(int start_x,int start_y,int target_x,int target_y){
         if(playerAnimator!=null)
             playerAnimator.cancel();

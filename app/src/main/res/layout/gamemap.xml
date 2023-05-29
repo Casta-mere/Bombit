@@ -138,7 +138,7 @@
 
     </RelativeLayout>
 
-    <com.example.qbomb.drawGameMap
+    <com.example.qbomb.gameManager
         android:id="@+id/gameView"
         android:layout_width="0dp"
         android:layout_height="match_parent"

@@ -12,7 +12,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener{
-    drawGameMap gameView;
+    gameManager gameView;
     MapData map = new MapData();
     Button btn_up, btn_down, btn_left, btn_right, btn_bomb;
     boolean isButtonPressed = false;
@@ -107,9 +107,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                     handler.postDelayed(this, 100);
                 }
             }
-        }, 20);
+        }, 0);
     }
-
     // 在 ACTION_UP 中停止定时器
     private void stopTimer() {
         if (handler != null) {

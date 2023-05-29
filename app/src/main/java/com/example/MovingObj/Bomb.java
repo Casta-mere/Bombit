@@ -26,13 +26,15 @@ public class Bomb implements Runnable{
     private int y;
     private int bombPower;
     private int bombFrame = 0;
+    private Player player;
 
-    public Bomb(Context context,int x,int y,int bombPower,BombListener bombListener){
+    public Bomb(Context context,int x,int y,int bombPower,BombListener bombListener,Player player){
         if(!init){
             initBombBitmap(context);
             init = true;
         }
         initData(x,y,bombPower,bombListener);
+        this.player = player;
     }
     private void initData(int x, int y,int bombPower, BombListener bombListener){
         this.x = x;
@@ -106,7 +108,7 @@ public class Bomb implements Runnable{
 
     private void explode(){
         isExplode = true;
-        bombListener.onBombExplode(this);
+        bombListener.onBombExplode(this, player);
     }
 
     public int getBomb_x() {return x;}
