@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/map_theme">
+
+    <TextView
+        android:id="@+id/figure_title"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/mode_title"
+        android:fontFamily="@font/chn_string"
+        android:text="  角色选择  "
+        android:textColor="@color/black"
+        android:textSize="36sp" />
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/arrow_select1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="70dp"
+            android:background="@drawable/arrow_fig_select" />
+
+        <ImageView
+            android:id="@+id/arrow_select2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="240dp"
+            android:background="@drawable/arrow_fig_select" />
+
+        <ImageView
+            android:id="@+id/arrow_select3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="410dp"
+            android:background="@drawable/arrow_fig_select" />
+
+        <ImageView
+            android:id="@+id/arrow_select4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="580dp"
+            android:background="@drawable/arrow_fig_select" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/arrow_select2"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/char1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/fig_bazzi"/>
+
+            <Button
+                android:id="@+id/char2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/fig_dao" />
+
+            <Button
+                android:id="@+id/char3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/fig_marid" />
+
+            <Button
+                android:id="@+id/char4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/fig_uni" />
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/mode_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/chn_string"
+            android:textColor="@color/black"
+            android:text="  返回  "
+            android:textSize="36sp" />
+
+        <Button
+            android:id="@+id/mode_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/chn_string"
+            android:textColor="@color/black"
+            android:text="  继续  "
+            android:textSize="36sp" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>

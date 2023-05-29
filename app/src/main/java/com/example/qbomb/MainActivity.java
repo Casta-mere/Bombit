@@ -30,7 +30,13 @@ public class MainActivity extends AppCompatActivity{
         // 刘海屏适配
         getWindow().setDecorFitsSystemWindows(false);
 
-        setContentView(R.layout.gamemap);
+//        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.select_figure);
+//        setContentView(R.layout.select_mode);
+//        setContentView(R.layout.result_win);
+//        setContentView(R.layout.result_lose);
+//        setContentView(R.layout.result_tie);
+//        setContentView(R.layout.gamemap);
         Intent intent = new Intent(MainActivity.this, GameActivity.class);
         startActivity(intent);
     }

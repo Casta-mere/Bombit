@@ -36,6 +36,7 @@ public class Wave {
     private int bombPower;
     private int waveFrame = 0;
     private WaveListener waveListener;
+    private boolean isStop = false;
 
 
     public Wave(Context context, int x, int y, int bombPower, int[][] gameMap, WaveListener waveListener){
@@ -50,7 +51,8 @@ public class Wave {
         this.x = x;
         this.y = y;
         this.bombPower = bombPower;
-        this.gameMap = gameMap;
+        this.gameMap = new int[MAP_HEIGHT][MAP_WIDTH];
+        System.arraycopy(gameMap,0,this.gameMap,0,gameMap.length);
         this.waveListener = waveListener;
         Looper looper = Looper.myLooper();
         if(looper == null){
@@ -61,12 +63,15 @@ public class Wave {
             @Override
             public void run() {
                 waveFrame++;
+                System.out.println("here");
                 if (waveFrame >= waveOrder.length) {
                     finish();
+                    handler.removeCallbacksAndMessages(this);
+                    return;
                 }
                 handler.postDelayed(this, 25);
             }
-        }, 25);
+        }, 0);
 
     }
 
@@ -110,40 +115,44 @@ public class Wave {
         ArrayList<int[]> wave_left = new ArrayList<>();
         for (int i=0;i<bombPower;i++){
             center_x--;
-            if(gameMap[center_y][center_x] != MapData.ROAD){
+            int Type = gameMap[center_y][center_x];
+            if( Type == MapData.ROAD||Type == MapData.BLOCK)
+                wave_left.add(new int[]{center_y,center_x});
+            if( Type != MapData.ROAD)
                 break;
-            }
-            wave_left.add(new int[]{center_y,center_x});
         }
 
         center_x = x;
         ArrayList<int[]> wave_right = new ArrayList<>();
         for (int i=0;i<bombPower;i++){
             center_x++;
-            if(gameMap[center_y][center_x] != MapData.ROAD){
+            int Type = gameMap[center_y][center_x];
+            if( Type == MapData.ROAD||Type == MapData.BLOCK)
+                wave_right.add(new int[]{center_y,center_x});
+            if( Type != MapData.ROAD)
                 break;
-            }
-            wave_right.add(new int[]{center_y,center_x});
         }
 
         center_x = x;
         ArrayList<int[]> wave_up = new ArrayList<>();
         for (int i=0;i<bombPower;i++){
             center_y--;
-            if(gameMap[center_y][center_x] != MapData.ROAD){
+            int Type = gameMap[center_y][center_x];
+            if( Type == MapData.ROAD||Type == MapData.BLOCK)
+                wave_up.add(new int[]{center_y,center_x});
+            if( Type != MapData.ROAD)
                 break;
-            }
-            wave_up.add(new int[]{center_y,center_x});
         }
 
         center_y = y;
         ArrayList<int[]> wave_down = new ArrayList<>();
         for (int i=0;i<bombPower;i++){
             center_y++;
-            if(gameMap[center_y][center_x] != MapData.ROAD){
+            int Type = gameMap[center_y][center_x];
+            if( Type == MapData.ROAD||Type == MapData.BLOCK)
+                wave_down.add(new int[]{center_y,center_x});
+            if( Type != MapData.ROAD)
                 break;
-            }
-            wave_down.add(new int[]{center_y,center_x});
         }
 
 
@@ -183,6 +192,10 @@ public class Wave {
     }
 
     private void finish(){
-            waveListener.onWaveEnd(this);
+        waveListener.onWaveEnd(this);
+        isStop = true;
     }
+    public int getX() {return x;}
+    public int getY() {return y;}
+    public int getBombPower() {return bombPower;}
 }

@@ -47,7 +47,7 @@ public class bitmapManipulate {
                 }
             }
         }
-        String s = String.format("%d, %d, %d, %d", left, top, right, bottom);
+        String s = String.format("Crop Size is %d, %d, %d, %d", left, top, right, bottom);
         System.out.println(s);
     }
 

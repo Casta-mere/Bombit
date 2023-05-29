@@ -8,39 +8,135 @@
     android:orientation="horizontal">
 
 
-        <RelativeLayout
-            android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2">
-            <Button
-                android:id="@+id/actionUp"
-                android:background="@drawable/triangle13"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="100dp"/>
-            <Button
-                android:id="@+id/actionDown"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/triangle11"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/actionUp"/>
-            <Button
-                android:id="@+id/actionLeft"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/triangle14"
-                android:layout_toLeftOf="@id/actionUp"
-                android:layout_centerVertical="true"/>
-            <Button
-                android:id="@+id/actionRight"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/triangle12"
-                android:layout_toRightOf="@+id/actionUp"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/container"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/container"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="5dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text=" "
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/actionLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/actionUp"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/triangle14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text=" "
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/actionUp"
+                        android:background="@drawable/triangle13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_centerHorizontal="true"/>
+                    <Button
+                        android:id="@+id/actionDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/triangle11"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@id/actionUp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text=" "
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/actionRight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/actionUp"
+                        android:layout_weight="2"
+                        android:background="@drawable/triangle12" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text=" "
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <com.example.qbomb.drawGameMap
         android:id="@+id/gameView"

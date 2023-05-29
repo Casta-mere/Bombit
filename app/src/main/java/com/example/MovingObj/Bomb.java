@@ -43,13 +43,19 @@ public class Bomb implements Runnable{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(isExplode){
+                    handler.removeCallbacksAndMessages(this);
+                    return;
+                }
                 bombFrame++;
                 if (bombFrame >= FRAME_WIDTH_COUNT) {
                     bombFrame = 0;
                 }
+
+//                每200ms换一帧
                 handler.postDelayed(this, 200);
             }
-        }, 200);
+        }, 0);
 
     }
 
@@ -60,6 +66,8 @@ public class Bomb implements Runnable{
         Bitmap bomb_all = BitmapFactory.decodeResource(context.getResources(), bomb_src);
         bomb_FrameWidth = bomb_all.getWidth() / FRAME_WIDTH_COUNT;
         bomb_FrameHeight = bomb_all.getHeight();
+        System.out.println(String.format("bomb_FrameWidth is %d", bomb_FrameWidth));
+        System.out.println(String.format("bomb_FrameHeight is %d", bomb_FrameHeight));
         bomb = new Bitmap[FRAME_WIDTH_COUNT];
         for(int i=0;i<FRAME_WIDTH_COUNT;i++){
             int left = i * bomb_FrameWidth;
@@ -68,7 +76,10 @@ public class Bomb implements Runnable{
             int bottom = bomb_FrameHeight;
 
             Bitmap bombFrame = Bitmap.createBitmap(bomb_all, left, top, right, bottom);
-            bomb[i] = bitmapManipulate.cropBitmap(bombFrame,30, 53, 142, 158);
+//            bitmapManipulate.findCropSize(bombFrame);
+//            bomb[i] = bitmapManipulate.cropBitmap(bombFrame,30, 53, 142, 158);
+//            可能受到设备分辨率影响
+            bomb[i] = bitmapManipulate.cropBitmap(bombFrame,12,21,53,61);
         }
 
     }

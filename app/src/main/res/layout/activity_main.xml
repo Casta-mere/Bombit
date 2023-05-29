@@ -24,6 +24,7 @@
         android:fontFamily="@font/chn_string"
         android:text="  开始游戏  "
         android:textSize="36sp"
+        android:textColor="@color/black"
         android:layout_gravity="center"
         />
 
@@ -35,6 +36,7 @@
         android:fontFamily="@font/chn_string"
         android:text="  游戏提示  "
         android:textSize="36sp"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp"
         android:layout_gravity="center" />
 
