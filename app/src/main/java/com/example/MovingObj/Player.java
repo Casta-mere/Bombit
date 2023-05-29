@@ -26,11 +26,11 @@ public class Player extends MovingObjects {
     protected int player_place_x;
     private float player_y;
     protected int player_place_y;
-    private float player_speed = 400f;
-    private int player_bomb_power = 2;
+    private float player_speed = 300f;
+    private int player_bomb_power = 1;
     private int bombMax = 1;
     private int bombCurrent = 0;
-    private int life = 2;
+    private int life = 1;
     protected boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     private Context context;

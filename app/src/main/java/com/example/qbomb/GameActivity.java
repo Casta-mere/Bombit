@@ -58,7 +58,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_bomb.setOnTouchListener(this);
 
         gameView.setGameListener(this);
-        gameView.setMap(map.mapDataList.get(4));
+        gameView.setMap(map.mapDataList.get(5));
     }
     private void initData() {
         music = new MusicPlayer();
