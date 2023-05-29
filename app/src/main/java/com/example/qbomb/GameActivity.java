@@ -52,7 +52,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_right.setOnTouchListener(this);
         btn_bomb.setOnTouchListener(this);
 
-        gameView.setMap(map.mapDataList.get(1));
+        gameView.setMap(map.mapDataList.get(2));
     }
 
     @Override

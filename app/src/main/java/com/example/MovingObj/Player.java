@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.example.myfunctions.bitmapManipulate;
 import com.example.qbomb.MapData;
@@ -18,6 +19,7 @@ public class Player extends MovingObjects {
     private static int FRAME_RATE = 200;
     private Bitmap[][] player;
     private PlayerListener playerListener;
+    private BombListener bombListener;
     private int mCurrentFrame = 0;
     private int mCurrentHeight = 1;
     private float player_x;
@@ -28,24 +30,35 @@ public class Player extends MovingObjects {
     private int player_bomb_power = 1;
     private int bombMax = 1;
     private int bombCurrent = 0;
-    private int life = 1;
-    private boolean isAlive = true;
+    private int life = 2;
+    protected boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
-    public Player(Context context,int player_src,PlayerListener playerListener,int x,int y,int[][] gameMap){
+    private Context context;
+    public Player(Context context,int player_src,PlayerListener playerListener,BombListener bombListener,int x,int y,int[][] gameMap){
         initPlayerBitmap(context,player_src);
-        initData(x,y,gameMap,playerListener);
+        initData(x,y,gameMap,playerListener,bombListener);
+        this.context = context;
     }
-    private void initData(int x,int y,int[][] gameMap,PlayerListener playerListener){
+    private void initData(int x,int y,int[][] gameMap,PlayerListener playerListener,BombListener bombListener){
         this.player_place_x = x;
         this.player_x = x;
         this.player_place_y = y;
         this.player_y = y;
         this.gameMap = gameMap;
         this.playerListener = playerListener;
-        Handler handler = new Handler();
+        this.bombListener = bombListener;
+        Looper looper = Looper.myLooper();
+        if(looper == null){
+            looper = Looper.getMainLooper();
+        }
+        Handler handler = new Handler(looper);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(!isAlive){
+                    handler.removeCallbacksAndMessages(this);
+                    return;
+                }
                 mCurrentFrame++;
                 if (mCurrentFrame >= FRAME_WIDTH_COUNT) {
                     mCurrentFrame = 0;
@@ -104,13 +117,20 @@ public class Player extends MovingObjects {
     public float getPlayer_float_y(){
         return player_y;
     }
-    public int getPlayer_bomb_power(){
-        return player_bomb_power;
-    }
     public boolean canSetBomb(){
-        return bombCurrent < bombMax;
+        boolean flag1 =  bombCurrent < bombMax;
+        boolean flag2 = gameMap[player_place_y][player_place_x] == MapData.ROAD;
+        return flag1 && flag2;
     }
-    public void set_Bomb(){bombCurrent++;}
+    public void set_Bomb(){
+        if(canSetBomb()){
+            Bomb bomb = new Bomb(context,player_place_x,player_place_y,player_bomb_power,bombListener,this);
+            bombCurrent++;
+            gameMap[player_place_y][player_place_x] = MapData.BOMB;
+            playerListener.onSetBomb(bomb);
+        }
+
+    }
     public void Bomb_explode(){bombCurrent--;}
     public void directionUp(){mCurrentHeight = 3;}
     public void directionDown(){mCurrentHeight = 0;}
@@ -204,6 +224,13 @@ public class Player extends MovingObjects {
             playerAnimator.start();
         }
 
+    }
+    public void loseLife(){
+        life--;
+        if(life == 0){
+            isAlive = false;
+            playerListener.onPlayerDead(this);
+        }
     }
 
 }

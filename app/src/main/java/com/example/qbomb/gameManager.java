@@ -15,12 +15,13 @@ import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
 import com.example.MovingObj.BombListener;
 import com.example.MovingObj.PlayerListener;
+import com.example.MovingObj.Robot;
 import com.example.MovingObj.Wave;
 import com.example.MovingObj.WaveListener;
 
 import java.util.ArrayList;
 
-public class gameManager extends View implements BombListener, WaveListener {
+public class gameManager extends View implements BombListener, WaveListener, PlayerListener {
     final int MAP_HEIGHT = MapData.MAP_HEIGHT;
     final int MAP_WIDTH = MapData.MAP_WIDTH;
     private int screenWidth;
@@ -56,18 +57,26 @@ public class gameManager extends View implements BombListener, WaveListener {
     };
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
     private ArrayList<Wave> my_waves = new ArrayList<Wave>();
+    private ArrayList<Robot> my_robots = new ArrayList<Robot>();
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
         initPlayer();
+        initRobots();
     }
     private void initPlayer() {
-        player1 = new Player(this.getContext(), R.drawable.red3, new PlayerListener() {
-            @Override
-            public void onPlayerDead(Player player) {
-
-            }
-        },1,1,gameMap);
+        player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
+    }
+    private void initRobots(){
+        Robot robot1 = new Robot(this.getContext(), R.drawable.robot1,this, this,13,1,gameMap);
+        Robot robot2 = new Robot(this.getContext(), R.drawable.robot2,this, this,13,13,gameMap);
+        Robot robot3 = new Robot(this.getContext(), R.drawable.robot3,this, this,1,13,gameMap);
+        my_robots.add(robot1);
+        my_robots.add(robot2);
+        my_robots.add(robot3);
+//        robot1.run();
+//        robot2.run();
+//        robot3.run();
     }
     private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
@@ -102,8 +111,10 @@ public class gameManager extends View implements BombListener, WaveListener {
         for (int i = 0; i < my_waves.size(); i++) {
             my_waves.get(i).drawWave(canvas, mPaint, screenWidth, screenHeight);
         }
+        for (int i = 0; i < my_robots.size(); i++) {
+            draw_Player(my_robots.get(i));
+        }
         draw_Player(player1);
-
     }
     private void paintMap() {
         for (int i = 0; i < MAP_HEIGHT; i++) {
@@ -140,9 +151,6 @@ public class gameManager extends View implements BombListener, WaveListener {
         System.arraycopy(mapData, 0, gameMap, 0, mapData.length);
         invalidate();  // 刷新画布
     }
-    public boolean is_not_int(float a){
-        return a % 1 != 0;
-    }
     public void moveUp() {
         player1.moveUp();
     }
@@ -155,21 +163,9 @@ public class gameManager extends View implements BombListener, WaveListener {
     public void moveRight() {
         player1.moveRight();
     }
-    public void newBomb(int x, int y, int bombPower,Player player){
-        gameMap[y][x] = MapData.BOMB;
-        Bomb bomb = new Bomb(getContext(),x,y,bombPower,this,player);
-        player.set_Bomb();
-        my_bombs.add(bomb);
-        new Thread(bomb).start();
-        System.out.println("New Bomb");
-    }
+
     public void playerSetBomb() {
-        int x = player1.getPlayer_place_x();
-        int y = player1.getPlayer_place_y();
-        if(gameMap[y][x] == MapData.ROAD && player1.canSetBomb()){
-            int bombPower = player1.getPlayer_bomb_power();
-            newBomb(x,y,bombPower,player1);
-        }
+        player1.set_Bomb();
     }
     @Override
     public void onBombExplode(Bomb bomb,Player player) {
@@ -215,11 +211,22 @@ public class gameManager extends View implements BombListener, WaveListener {
             gameMap[y][x] = road;
             flag = true;
         }else if(player1.getPlayer_place_x()== x && player1.getPlayer_place_y() == y){
-            player1.setPlayer_x(1);
-            player1.setPlayer_y(1);
+           player1.loseLife();
         } else if(gameMap[y][x] == wall){
             flag = true;
         }
         return flag;
+    }
+    @Override
+    public void onPlayerDead(Player player) {
+        if(player == player1){
+        player1=new Player(this.getContext(), R.drawable.red3, this,this,1,1,gameMap);
+        }
+    }
+    @Override
+    public void onSetBomb(Bomb bomb) {
+        my_bombs.add(bomb);
+        new Thread(bomb).start();
+        System.out.println("New Bomb");
     }
 }
