@@ -62,7 +62,7 @@ public class Bomb implements Runnable{
 //                每200ms换一帧
                 handler.postDelayed(this, 200);
             }
-        }, 0);
+        }, 10);
 
     }
 

@@ -23,14 +23,14 @@ public class Player extends MovingObjects {
     private int mCurrentFrame = 0;
     private int mCurrentHeight = 1;
     private float player_x;
-    private int player_place_x;
+    protected int player_place_x;
     private float player_y;
-    private int player_place_y;
-    private float player_speed = 300f;
-    private int player_bomb_power = 1;
-    private int bombMax = 2;
+    protected int player_place_y;
+    private float player_speed = 400f;
+    private int player_bomb_power = 2;
+    private int bombMax = 1;
     private int bombCurrent = 0;
-    private int life = 2;
+    private int life = 100;
     protected boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     private Context context;
@@ -65,7 +65,7 @@ public class Player extends MovingObjects {
                 }
                 handler.postDelayed(this, FRAME_RATE);
             }
-        },0);
+        },10);
     }
     private void initPlayerBitmap(Context context,int player_src){
         Bitmap player_all = BitmapFactory.decodeResource(context.getResources(), player_src);
@@ -230,6 +230,22 @@ public class Player extends MovingObjects {
         if(life == 0){
             isAlive = false;
             playerListener.onPlayerDead(this);
+        }
+    }
+    protected void move(int direction){
+        switch (direction){
+            case 0:
+                moveUp();
+                break;
+            case 1:
+                moveDown();
+                break;
+            case 2:
+                moveLeft();
+                break;
+            case 3:
+                moveRight();
+                break;
         }
     }
 

@@ -70,7 +70,7 @@ public class Wave {
                 }
                 handler.postDelayed(this, 25);
             }
-        }, 0);
+        }, 10);
 
     }
 

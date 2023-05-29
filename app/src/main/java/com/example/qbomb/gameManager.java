@@ -1,6 +1,7 @@
 package com.example.qbomb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
@@ -74,9 +76,6 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         my_robots.add(robot1);
         my_robots.add(robot2);
         my_robots.add(robot3);
-//        robot1.run();
-//        robot2.run();
-//        robot3.run();
     }
     private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
@@ -163,7 +162,6 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     public void moveRight() {
         player1.moveRight();
     }
-
     public void playerSetBomb() {
         player1.set_Bomb();
     }
@@ -180,7 +178,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
 
         bombBlock(wave.getX(),wave.getY(),wave.getBombPower());
         my_bombs.remove(bomb);
-        System.out.println("New Wave");
+//        System.out.println("New Wave");
     }
     @Override
     public void onWaveEnd(Wave wave) {
@@ -210,10 +208,16 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         if(gameMap[y][x] == block){
             gameMap[y][x] = road;
             flag = true;
-        }else if(player1.getPlayer_place_x()== x && player1.getPlayer_place_y() == y){
-           player1.loseLife();
-        } else if(gameMap[y][x] == wall){
+        }else if(gameMap[y][x] == wall){
             flag = true;
+        }
+        if(player1.getPlayer_place_x()==x&&player1.getPlayer_place_y()==y){
+            player1.loseLife();
+        }
+        for (int i = 0; i < my_robots.size(); i++) {
+            if(my_robots.get(i).getPlayer_place_x()==x&&my_robots.get(i).getPlayer_place_y()==y){
+                my_robots.get(i).loseLife();
+            }
         }
         return flag;
     }
@@ -222,11 +226,32 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         if(player == player1){
         player1=new Player(this.getContext(), R.drawable.red3, this,this,1,1,gameMap);
         }
+        else{
+            my_robots.remove(player);
+            if(my_robots.size()==0){
+//                win();
+            }
+        }
     }
     @Override
     public void onSetBomb(Bomb bomb) {
         my_bombs.add(bomb);
         new Thread(bomb).start();
-        System.out.println("New Bomb");
+//        System.out.println("New Bomb");
+    }
+    private void win(){
+        Intent intent = new Intent();
+        intent.setClass(getContext(), MainActivity.class);
+        getContext().startActivity(intent);
+    }
+    private void lose(){
+        Intent intent = new Intent();
+        intent.setClass(getContext(), MainActivity.class);
+        getContext().startActivity(intent);
+    }
+    private void tie() {
+        Intent intent = new Intent();
+        intent.setClass(getContext(), MainActivity.class);
+        getContext().startActivity(intent);
     }
 }
