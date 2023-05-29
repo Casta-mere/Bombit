@@ -1,6 +1,5 @@
 package com.example.qbomb;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +11,6 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
@@ -36,16 +34,9 @@ public class drawGameMap extends View implements BombListener, WaveListener {
     Bitmap bitmap_block;
     private static final int FRAME_RATE = 16;
     private static final float PLAYER_SPEED = 300f;
-    private Player player1 = new Player(this.getContext(), R.drawable.red3, new PlayerListener() {
-        @Override
-        public void onPlayerDead(Player player) {
-
-        }
-    });
+    private Player player1;
     Paint mPaint = new Paint();
     Canvas mCanvas = new Canvas();
-    float player_x = 4;
-    float player_y = 1;
     int [ ][ ]  gameMap= {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -69,7 +60,18 @@ public class drawGameMap extends View implements BombListener, WaveListener {
     public drawGameMap(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
+        initPlayer();
     }
+
+    private void initPlayer() {
+        player1 = new Player(this.getContext(), R.drawable.red3, new PlayerListener() {
+            @Override
+            public void onPlayerDead(Player player) {
+
+            }
+        },1,1,gameMap);
+    }
+
     private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
         bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.path_1);
@@ -105,7 +107,7 @@ public class drawGameMap extends View implements BombListener, WaveListener {
         for (int i = 0; i < my_waves.size(); i++) {
             my_waves.get(i).drawWave(canvas, mPaint, width, height);
         }
-        drawPlayer(player_x, player_y);
+        draw_Player(player1);
 
     }
     private void paintMap() {
@@ -130,19 +132,9 @@ public class drawGameMap extends View implements BombListener, WaveListener {
             }
         }
     }
-    private void drawPlayer(float x, float y){
-        float left = (width/MAP_WIDTH)*x;
-        float top = (height/MAP_HEIGHT)*y;
-        float right = (width/MAP_WIDTH)*(x+1);
-        float bottom = (height/MAP_HEIGHT)*(y+1);
-
-        Rect rect = new Rect((int)left, (int)top, (int)right, (int)bottom);
-        Bitmap frameBitmap = player1.getBitmap();
-        mCanvas.drawBitmap(frameBitmap, null, rect, mPaint);
-    }
     private void draw_Player(Player p){
-        int x=p.getPlayer_x();
-        int y=p.getPlayer_y();
+        float x=p.getPlayer_float_x();
+        float y=p.getPlayer_float_y();
         float left = (width/MAP_WIDTH)*x;
         float top = (height/MAP_HEIGHT)*y;
         float right = (width/MAP_WIDTH)*(x+1);
@@ -161,155 +153,16 @@ public class drawGameMap extends View implements BombListener, WaveListener {
         return a % 1 != 0;
     }
     public void moveUp() {
-        if(is_not_int(player_y)|| is_not_int(player_x))
-            return;
-        int x = (int) player_x;
-        int y = (int) player_y;
-        player1.goUp();
-
-        if (gameMap[y - 1][x] == road) {
-            float startY = player_y;
-            float targetY = y - 1;
-            if (playerAnimator != null) {
-                playerAnimator.cancel(); // 取消前一个动画
-            }
-            playerAnimator = ValueAnimator.ofFloat(startY, targetY);
-            playerAnimator.setDuration((long) Math.abs((targetY - startY) * PLAYER_SPEED));
-            playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
-            playerAnimator.addUpdateListener(animation -> {
-                player_y = (float) animation.getAnimatedValue();
-//                invalidate();
-            });
-            playerAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) { }
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    player_y = targetY;
-                    player1.setPlayer_y((int) player_y);
-                    invalidate();
-                }
-                @Override
-                public void onAnimationCancel(Animator animation) { }
-                @Override
-                public void onAnimationRepeat(Animator animation) { }
-            });
-            playerAnimator.start();
-        }
+        player1.moveUp();
     }
-    public void moveDown(){
-        if(is_not_int(player_y)|| is_not_int(player_x))
-            return;
-        int x = (int) player_x;
-        int y = (int) player_y;
-        player1.goDown();
-        if (gameMap[y+1][x] == road) {
-            float startY = player_y;
-            float targetY = y + 1;
-            if (playerAnimator != null) {
-                playerAnimator.cancel(); // 取消前一个动画
-            }
-            playerAnimator = ValueAnimator.ofFloat(startY, targetY);
-            playerAnimator.setDuration((long) Math.abs((targetY - startY) * PLAYER_SPEED));
-            playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
-            playerAnimator.addUpdateListener(animation -> {
-                player_y = (float) animation.getAnimatedValue();
-//                invalidate();
-            });
-            playerAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    player_y = targetY;
-                    player1.setPlayer_y((int)targetY);
-                    invalidate();
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                }
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            });
-            playerAnimator.start();
-        }
-
+    public void moveDown() {
+        player1.moveDown();
     }
-    public void moveLeft(){
-        if(is_not_int(player_y)|| is_not_int(player_x))
-            return;
-        int x = (int)player_x;
-        int y = (int)player_y;
-        player1.goLeft();
-        if (gameMap[y][x-1] == road){
-            float startX = player_x;
-            float targetX = x - 1;
-            if (playerAnimator != null) {
-                playerAnimator.cancel(); // 取消前一个动画
-            }
-            playerAnimator = ValueAnimator.ofFloat(startX, targetX);
-            playerAnimator.setDuration((long) Math.abs((targetX - startX) * PLAYER_SPEED));
-            playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
-            playerAnimator.addUpdateListener(animation -> {
-                player_x = (float) animation.getAnimatedValue();
-//                invalidate();
-            });
-            playerAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) { }
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    player_x = targetX;
-                    player1.setPlayer_x((int) player_x);
-                    invalidate();
-                }
-                @Override
-                public void onAnimationCancel(Animator animation) { }
-                @Override
-                public void onAnimationRepeat(Animator animation) { }
-            });
-            playerAnimator.start();
-        }
+    public void moveLeft() {
+        player1.moveLeft();
     }
-    public void moveRight(){
-        if(is_not_int(player_y)|| is_not_int(player_x))
-            return;
-        int x = (int)player_x;
-        int y = (int)player_y;
-        player1.goRight();
-        if (gameMap[y][x+1] == road){
-            float startX = player_x;
-            float targetX = x + 1;
-            if (playerAnimator != null) {
-                playerAnimator.cancel(); // 取消前一个动画
-            }
-            playerAnimator = ValueAnimator.ofFloat(startX, targetX);
-            playerAnimator.setDuration((long) Math.abs((targetX - startX) * PLAYER_SPEED));
-            playerAnimator.setInterpolator(new LinearInterpolator()); // 线性插值器，使动画速度保持恒定
-            playerAnimator.addUpdateListener(animation -> {
-                player_x = (float) animation.getAnimatedValue();
-//                invalidate();
-            });
-            playerAnimator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) { }
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    player_x = targetX;
-                    player1.setPlayer_x((int) player_x);
-                    invalidate();
-                }
-                @Override
-                public void onAnimationCancel(Animator animation) { }
-                @Override
-                public void onAnimationRepeat(Animator animation) { }
-            });
-            playerAnimator.start();
-        }
+    public void moveRight() {
+        player1.moveRight();
     }
     public void setBomb(int x,int y,int bombPower){
         Bomb bomb = new Bomb(getContext(),x,y,bombPower,this);
@@ -318,9 +171,9 @@ public class drawGameMap extends View implements BombListener, WaveListener {
         System.out.println("New Bomb");
     }
     public void playerSetBomb() {
-        int x = (int) player_x;
-        int y = (int) player_y;
-        int bombPower = 5;
+        int x = player1.getPlayer_place_x();
+        int y = player1.getPlayer_place_y();
+        int bombPower = player1.getPlayer_bomb_power();
         setBomb(x,y,bombPower);
     }
     @Override
@@ -340,7 +193,6 @@ public class drawGameMap extends View implements BombListener, WaveListener {
     public void onWaveEnd(Wave wave) {
         my_waves.remove(wave);
     }
-
     public void bombBlock(int x,int y,int power){
         bombResult(x,y);
         for(int i = 1;i<=power;i++){
@@ -365,11 +217,9 @@ public class drawGameMap extends View implements BombListener, WaveListener {
         if(gameMap[y][x] == block){
             gameMap[y][x] = road;
             flag = true;
-        }else if((int)player_x == x && (int)player_y == y){
+        }else if(player1.getPlayer_place_x()== x && player1.getPlayer_place_y() == y){
             player1.setPlayer_x(1);
             player1.setPlayer_y(1);
-            player_x = 1;
-            player_y = 1;
         } else if(gameMap[y][x] == wall){
             flag = true;
         }
