@@ -57,11 +57,12 @@
                     android:textColor="@color/orange"/>
 
                 <TextView
+                    android:id="@+id/lose_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_marginLeft="20dp"
                     android:fontFamily="@font/chn_string"
-                    android:text=" 消耗时间 "
                     android:textSize="28sp"
                     android:textColor="@color/orange"/>
 
@@ -163,7 +164,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/settlement_back"
+                    android:id="@+id/lose_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
@@ -174,7 +175,7 @@
                     android:textSize="36sp" />
 
                 <Button
-                    android:id="@+id/settlement_next"
+                    android:id="@+id/lose_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

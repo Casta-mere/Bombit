@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
 //        setContentView(R.layout.result_lose);
 //        setContentView(R.layout.result_tie);
 //        setContentView(R.layout.gamemap);
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        Intent intent = new Intent(MainActivity.this, FirstPage.class);
         startActivity(intent);
     }
 

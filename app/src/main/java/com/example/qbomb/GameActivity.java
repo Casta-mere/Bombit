@@ -1,6 +1,7 @@
 package com.example.qbomb;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -11,7 +12,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GameActivity extends AppCompatActivity implements View.OnTouchListener{
+import com.example.MovingObj.GameListener;
+import com.example.myfunctions.MusicPlayer;
+
+public class GameActivity extends AppCompatActivity implements View.OnTouchListener, GameListener {
+    private MusicPlayer music;
     gameManager gameView;
     MapData map = new MapData();
     Button btn_up, btn_down, btn_left, btn_right, btn_bomb;
@@ -34,8 +39,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         getWindow().setDecorFitsSystemWindows(false);
 
         setContentView(R.layout.gamemap);
-
         initView();
+        initData();
     }
 
     public void initView(){
@@ -52,7 +57,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_right.setOnTouchListener(this);
         btn_bomb.setOnTouchListener(this);
 
+        gameView.setGameListener(this);
         gameView.setMap(map.mapDataList.get(4));
+    }
+    private void initData() {
+        music = new MusicPlayer();
+        music.play(this, R.raw.gaming);
     }
 
     @Override
@@ -121,4 +131,46 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         gameView.playerSetBomb();
     }
 
+    @Override
+    public void onGameLose(int time) {
+        Intent intent = new Intent(GameActivity.this, GameLose.class);
+        intent.putExtra("time", time);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onGameWin(int time) {
+        Intent intent = new Intent(GameActivity.this, GameWin.class);
+        intent.putExtra("time", time);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onGameTie(int time) {
+        Intent intent = new Intent(GameActivity.this, GameTie.class);
+        intent.putExtra("time", time);
+        startActivity(intent);
+        finish();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        music.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(music!=null){
+            music.stop();
+            music.release();
+        }
+    }
 }

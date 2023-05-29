@@ -52,8 +52,8 @@ public class bitmapManipulate {
     }
 
     public static Bitmap cropBitmap(Bitmap source, int left, int top, int right, int bottom){
-        String s = String.format("%d, %d, %d, %d", left, top, right, bottom);
-        System.out.println(s);
+//        String s = String.format("%d, %d, %d, %d", left, top, right, bottom);
+//        System.out.println(s);
         Bitmap crop = Bitmap.createBitmap(source, left, top, right - left + 1, bottom - top + 1);
         return crop;
     }

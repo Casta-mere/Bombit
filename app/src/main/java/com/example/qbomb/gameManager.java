@@ -11,8 +11,8 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Toast;
 
+import com.example.MovingObj.GameListener;
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
 import com.example.MovingObj.BombListener;
@@ -60,11 +60,15 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
     private ArrayList<Wave> my_waves = new ArrayList<Wave>();
     private ArrayList<Robot> my_robots = new ArrayList<Robot>();
+    private GameListener gameListener;
+    private int gameTime = 0;
+    private Boolean isGameOver = false;
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
         initPlayer();
         initRobots();
+        initTimer();
     }
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
@@ -85,10 +89,24 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if(isGameOver){
+                    handler.removeCallbacksAndMessages(this);
+                    return;
+                }
                 invalidate();
                 handler.postDelayed(this, FRAME_RATE);
             }
         }, FRAME_RATE);
+    }
+    private void initTimer(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gameTime++;
+                handler.postDelayed(this, 1000);
+            }
+        }, 0);
     }
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -149,6 +167,9 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     public void setMap(int[][] mapData){
         System.arraycopy(mapData, 0, gameMap, 0, mapData.length);
         invalidate();  // 刷新画布
+    }
+    public void setGameListener(GameListener gameListener){
+        this.gameListener = gameListener;
     }
     public void moveUp() {
         player1.moveUp();
@@ -224,12 +245,14 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     @Override
     public void onPlayerDead(Player player) {
         if(player == player1){
-        player1=new Player(this.getContext(), R.drawable.red3, this,this,1,1,gameMap);
+            lose();
+            gameOver();
         }
         else{
             my_robots.remove(player);
             if(my_robots.size()==0){
-//                win();
+                win();
+                gameOver();
             }
         }
     }
@@ -240,18 +263,28 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
 //        System.out.println("New Bomb");
     }
     private void win(){
-        Intent intent = new Intent();
-        intent.setClass(getContext(), MainActivity.class);
-        getContext().startActivity(intent);
+        if(!isGameOver) {
+            isGameOver = true;
+            gameListener.onGameWin(gameTime);
+        }
     }
     private void lose(){
-        Intent intent = new Intent();
-        intent.setClass(getContext(), MainActivity.class);
-        getContext().startActivity(intent);
+        if(!isGameOver) {
+            isGameOver = true;
+            gameListener.onGameLose(gameTime);
+        }
     }
     private void tie() {
-        Intent intent = new Intent();
-        intent.setClass(getContext(), MainActivity.class);
-        getContext().startActivity(intent);
+        if(!isGameOver) {
+            isGameOver = true;
+            gameListener.onGameTie(gameTime);
+        }
     }
+    private void gameOver(){
+        player1.stop();
+        for (int i = 0; i < my_robots.size(); i++) {
+            my_robots.get(i).stop();
+        }
+    }
+
 }

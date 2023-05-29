@@ -30,7 +30,7 @@ public class Player extends MovingObjects {
     private int player_bomb_power = 2;
     private int bombMax = 1;
     private int bombCurrent = 0;
-    private int life = 100;
+    private int life = 2;
     protected boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     private Context context;
@@ -59,6 +59,7 @@ public class Player extends MovingObjects {
                     handler.removeCallbacksAndMessages(this);
                     return;
                 }
+                System.out.println("PLAYER RUNNING");
                 mCurrentFrame++;
                 if (mCurrentFrame >= FRAME_WIDTH_COUNT) {
                     mCurrentFrame = 0;
@@ -232,6 +233,9 @@ public class Player extends MovingObjects {
             playerListener.onPlayerDead(this);
         }
     }
+    public void stop(){
+        isAlive = false;
+    }
     protected void move(int direction){
         switch (direction){
             case 0:
@@ -247,6 +251,14 @@ public class Player extends MovingObjects {
                 moveRight();
                 break;
         }
+    }
+    public int[] getState(){
+        int[] state = new int[4];
+        state[0] = life;
+        state[1] = bombMax;
+        state[2] = (int) player_speed;
+        state[3] = player_bomb_power;
+        return state;
     }
 
 }
