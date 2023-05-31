@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,8 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     private Button leftMap;
     private Button rightMap;
     private static MusicPlayer music ;
+    private ImageView showMap;
+    private int selectedMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
 
     private void initData() {
         music = new MusicPlayer();
-        music.play(this, R.raw.mode_fig_bg);
+        music.play(this, R.raw.mode_fig_bg,true);
     }
 
     private void initView() {
@@ -66,10 +69,15 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
          }
          else if(id ==  R.id.mode_next){
             Intent intent = new Intent(SelectMode.this,SelectFigure.class);
-            intent.putExtra("map",0);
+            intent.putExtra("map",selectedMap);
             startActivity(intent);
             SelectMode.this.overridePendingTransition(0, 0);
             finish();
+        } else if (id == R.id.mode_left) {
+            selectedMap = (selectedMap - 1) % 3;
+
+        } else if (id == R.id.mode_right) {
+            selectedMap = (selectedMap + 1) % 3;
         }
 
     }

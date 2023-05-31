@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,7 +44,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         gameTips = findViewById(R.id.game_tips);
         gameTips.setOnClickListener(this);
         music=new MusicPlayer();
-        music.play(this,R.raw.first_bg);
+        music.play(this,R.raw.first_bg,true);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
             FirstPage.this.overridePendingTransition(0, 0);
             finish();
         }else if(id == R.id.game_tips){
-
+            Toast.makeText(this,"哪来的及做的,下次一定",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -70,7 +71,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        music.play(this,R.raw.first_bg);
+        music.play(this,R.raw.first_bg,true);
     }
 
     @Override

@@ -42,19 +42,19 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     Canvas mCanvas = new Canvas();
     int [ ][ ]  gameMap= {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-            {1,0,1,1,1,1,1,1,1,1,1,1,1,0,1},
-            {1,0,1,0,0,0,0,0,0,0,0,0,1,0,1},
-            {1,0,1,0,1,1,1,1,1,1,1,0,1,0,1},
-            {1,0,1,0,1,0,0,0,0,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,1,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,1,0,1,0,1,0,1,0,1,0,1,0,1},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,2,2,2,2,2,2,2,2,2,0,0,1},
+            {1,0,1,2,1,2,1,2,1,2,1,2,1,0,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,2,1,2,1,2,1,2,1,2,1,2,1,2,1},
+            {1,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+            {1,0,1,2,1,2,1,2,1,2,1,2,1,0,1},
+            {1,0,0,2,2,2,2,2,2,2,2,2,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     };
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
@@ -72,6 +72,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     }
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
+        player1.setState(new int[]{2, 4, 300, 2});
     }
     private void initRobots(){
         Robot robot1 = new Robot(this.getContext(), R.drawable.robot1,this, this,13,1,gameMap);
@@ -80,9 +81,12 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         my_robots.add(robot1);
         my_robots.add(robot2);
         my_robots.add(robot3);
+        robot1.setState(new int[]{1, 3, 300, 1});
+        robot2.setState(new int[]{1, 2, 400, 1});
+        robot3.setState(new int[]{3, 3, 200, 2});
     }
     private void initData(){
-        bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.block_3_n);
+        bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.f_block_01);
         bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.path_1);
         bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.desert_grass_b_layer);
         Handler handler = new Handler();
@@ -265,19 +269,19 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private void win(){
         if(!isGameOver) {
             isGameOver = true;
-            gameListener.onGameWin(gameTime);
+            gameListener.onGameWin(gameTime,player1.getLife());
         }
     }
     private void lose(){
         if(!isGameOver) {
             isGameOver = true;
-            gameListener.onGameLose(gameTime);
+            gameListener.onGameLose(gameTime,0);
         }
     }
     private void tie() {
         if(!isGameOver) {
             isGameOver = true;
-            gameListener.onGameTie(gameTime);
+            gameListener.onGameTie(gameTime,player1.getLife());
         }
     }
     private void gameOver(){
@@ -286,5 +290,12 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
             my_robots.get(i).stop();
         }
     }
-
+    public int[][] getStates(){
+        int [][] states = new int[4][4];
+        states[0]=player1.getState();
+        states[1]=my_robots.get(0).getState();
+        states[2]=my_robots.get(2).getState();
+        states[3]=my_robots.get(1).getState();
+        return states;
+    }
 }

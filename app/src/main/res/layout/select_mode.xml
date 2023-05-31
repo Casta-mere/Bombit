@@ -17,7 +17,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
-            android:background="@drawable/test_map"/>
+            android:background="@drawable/map_demo2"/>
 
         <ImageView
             android:id="@+id/map_container"
@@ -36,7 +36,7 @@
             android:background="@drawable/mode_title"
             android:fontFamily="@font/chn_string"
             android:gravity="center"
-            android:text="  模式选择  "
+            android:text="  经典模式  "
             android:textColor="@color/black"
             android:textSize="36sp" />
 

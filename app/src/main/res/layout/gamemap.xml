@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/game_back"
+    android:background="@drawable/game_back4"
     android:orientation="horizontal">
 
 
@@ -19,25 +19,294 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/container"/>
 
-                <ImageView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/container"/>
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <!--                            1-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:id="@+id/char1_slot"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:scaleX="0.5"
+                                    android:scaleY="0.5"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/char1_live"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="❤"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char1_bomb"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="💣"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char1_speed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="💨"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char1_power"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="⚡"
+                                        android:textColor="@color/black"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--                            1-->
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <!--                            2-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:id="@+id/char2_slot"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:scaleX="0.5"
+                                    android:scaleY="0.5"
+                                    android:background="@drawable/slot_robot1"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/char2_live"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="❤"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char2_bomb"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="💣"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char2_speed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="💨"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char2_power"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="⚡"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--                            2-->
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <!--                            3-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:id="@+id/char3_slot"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:scaleX="0.5"
+                                    android:scaleY="0.5"
+                                    android:background="@drawable/slot_robot3"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/char3_live"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="❤"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char3_bomb"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="💣"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char3_speed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="💨"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char3_power"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:textColor="@color/black"
+                                        android:text="⚡"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--                            3-->
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+                            <!--                            4-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:id="@+id/char4_slot"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:scaleX="0.5"
+                                    android:scaleY="0.5"
+                                    android:background="@drawable/slot_robot2"/>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        android:id="@+id/char4_live"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="❤"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char4_bomb"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="💣"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char4_speed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="💨"
+                                        android:textColor="@color/black"
+                                        />
+                                    <TextView
+                                        android:id="@+id/char4_power"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1"
+                                        android:autoSizeTextType="uniform"
+                                        android:text="⚡"
+                                        android:textColor="@color/black"
+                                        />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--                            4-->
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </FrameLayout>
+
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -156,7 +425,7 @@
             android:id="@+id/actionBomb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/bomb_icon"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>

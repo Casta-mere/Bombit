@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfunctions.MusicPlayer;
+
 public class GameLose extends AppCompatActivity implements View.OnClickListener {
     private Button back;
     private Button next;
     private TextView timeView;
+    private TextView liveView;
+    private MusicPlayer music= new MusicPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,9 @@ public class GameLose extends AppCompatActivity implements View.OnClickListener 
     private void initData() {
         Intent intent = getIntent();
         int time = intent.getIntExtra("time",0);
+        int live = intent.getIntExtra("live",0);
         timeView.setText(String.valueOf(time)+"s");
+        liveView.setText(String.valueOf(live));
     }
 
     private void initView() {
@@ -46,6 +52,9 @@ public class GameLose extends AppCompatActivity implements View.OnClickListener 
         next = findViewById(R.id.lose_next);
         next.setOnClickListener(this);
         timeView = findViewById(R.id.lose_time);
+        liveView = findViewById(R.id.lose_live);
+        music=new MusicPlayer();
+        music.play(this,R.raw.lose_bg,false);
     }
 
     @Override
@@ -62,6 +71,28 @@ public class GameLose extends AppCompatActivity implements View.OnClickListener 
             startActivity(intent);
             GameLose.this.overridePendingTransition(0, 0);
             finish();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        music.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        music.play(this,R.raw.lose_bg,false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(music!=null){
+            music.stop();
+            music.release();
         }
     }
 }

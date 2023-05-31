@@ -23,7 +23,7 @@ public class MusicPlayer {
     }
 
     // 播放音乐
-    public void play(Context context, int musicResId) {
+    public void play(Context context, int musicResId,boolean isLooping){
         try {
             // 判断是否有音乐正在播放
             if (mediaPlayer.isPlaying()) {
@@ -36,7 +36,8 @@ public class MusicPlayer {
             mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
             mediaPlayer.prepare();
-            mediaPlayer.setLooping(true);
+            if (isLooping)
+                mediaPlayer.setLooping(true);
             mediaPlayer.start();
             lastPlayed = musicResId;
             System.out.println(lastPlayed);

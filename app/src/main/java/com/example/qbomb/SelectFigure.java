@@ -28,7 +28,7 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
 
     private MusicPlayer music;
 
-    private int selectedFigure;
+    private int selectedFigure=1;
     private int selectedMode;
 
     @Override
@@ -54,7 +54,7 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         selectedMode = intent.getIntExtra("map",0);
         music = new MusicPlayer();
-        music.play(this, R.raw.mode_fig_bg);
+        music.play(this, R.raw.mode_fig_bg,true);
     }
 
     private void initView() {
@@ -118,12 +118,14 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
             select2.setVisibility(View.INVISIBLE);
             select3.setVisibility(View.VISIBLE);
             select4.setVisibility(View.INVISIBLE);
+            selectedFigure = 3;
         }
         else if(id == R.id.char4){
             select1.setVisibility(View.INVISIBLE);
             select2.setVisibility(View.INVISIBLE);
             select3.setVisibility(View.INVISIBLE);
             select4.setVisibility(View.VISIBLE);
+            selectedFigure = 4;
         }
     }
 

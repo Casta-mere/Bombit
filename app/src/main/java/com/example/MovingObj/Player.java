@@ -26,7 +26,7 @@ public class Player extends MovingObjects {
     protected int player_place_x;
     private float player_y;
     protected int player_place_y;
-    private float player_speed = 300f;
+    private float player_speed = 400f;
     private int player_bomb_power = 1;
     private int bombMax = 1;
     private int bombCurrent = 0;
@@ -59,7 +59,6 @@ public class Player extends MovingObjects {
                     handler.removeCallbacksAndMessages(this);
                     return;
                 }
-                System.out.println("PLAYER RUNNING");
                 mCurrentFrame++;
                 if (mCurrentFrame >= FRAME_WIDTH_COUNT) {
                     mCurrentFrame = 0;
@@ -256,9 +255,18 @@ public class Player extends MovingObjects {
         int[] state = new int[4];
         state[0] = life;
         state[1] = bombMax;
-        state[2] = (int) player_speed;
-        state[3] = player_bomb_power;
+        state[3] = (int) (400-player_speed)/50+1;
+        state[2] = player_bomb_power;
         return state;
     }
+    public void setState(int[] state){
+        life = state[0];
+        bombMax = state[1];
+        player_speed = state[2];
+        player_bomb_power = state[3];
+    }
 
+    public int getLife(){
+        return life;
+    }
 }

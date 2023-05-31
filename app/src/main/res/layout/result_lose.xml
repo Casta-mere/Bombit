@@ -84,74 +84,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/chn_string"
-                    android:text=" 消耗时间 "
+                    android:text=" 剩余生命 "
                     android:textSize="28sp"
                     android:textColor="@color/orange"/>
 
                 <TextView
+                    android:id="@+id/lose_live"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:fontFamily="@font/chn_string"
-                    android:text=" 消耗时间 "
                     android:textSize="28sp"
-                    android:textColor="@color/orange"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/star"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/chn_string"
-                    android:text=" 消耗时间 "
-                    android:textSize="28sp"
-                    android:textColor="@color/orange"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/chn_string"
-                    android:text=" 消耗时间 "
-                    android:textSize="28sp"
-                    android:textColor="@color/orange"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/chn_string"
-                    android:text=" 总分 "
-                    android:textSize="36sp"
-                    android:textColor="@color/orange"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:fontFamily="@font/chn_string"
-                    android:text=" 总分 "
-                    android:textSize="36sp"
                     android:textColor="@color/orange"/>
 
             </LinearLayout>

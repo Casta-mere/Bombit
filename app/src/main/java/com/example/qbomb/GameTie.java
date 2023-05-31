@@ -6,12 +6,18 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myfunctions.MusicPlayer;
 
 public class GameTie extends AppCompatActivity implements View.OnClickListener {
     private Button back;
     private Button next;
+    private TextView timeView;
+    private TextView liveView;
+    private MusicPlayer music= new MusicPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,15 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
 
         setContentView(R.layout.result_tie);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        int time = intent.getIntExtra("time",0);
+        int live = intent.getIntExtra("live",0);
+        timeView.setText(String.valueOf(time)+"s");
+        liveView.setText(String.valueOf(live));
     }
 
     private void initView() {
@@ -36,6 +51,10 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
         back.setOnClickListener(this);
         next = findViewById(R.id.tie_next);
         next.setOnClickListener(this);
+        timeView = findViewById(R.id.tie_time);
+        liveView = findViewById(R.id.tie_live);
+        music=new MusicPlayer();
+        music.play(this,R.raw.tie_bg,false);
     }
 
     @Override
@@ -52,6 +71,28 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
             startActivity(intent);
             GameTie.this.overridePendingTransition(0, 0);
             finish();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        music.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        music.play(this,R.raw.tie_bg,false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(music!=null){
+            music.stop();
+            music.release();
         }
     }
 }
