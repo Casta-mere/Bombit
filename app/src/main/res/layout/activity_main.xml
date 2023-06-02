@@ -47,11 +47,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/voice"
@@ -64,10 +64,10 @@
             android:id="@+id/ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_alignParentRight="true"
             android:src="@drawable/arrow_fig_select" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

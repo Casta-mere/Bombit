@@ -19,7 +19,8 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     private Button rightMap;
     private static MusicPlayer music ;
     private ImageView showMap;
-    private int selectedMap;
+    private int selectedMap=0;
+    private final int[] seriesImages = {R.drawable.map_demo,R.drawable.map_demo2,R.drawable.test_map};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
         leftMap.setOnClickListener(this);
         rightMap = findViewById(R.id.mode_right);
         rightMap.setOnClickListener(this);
+        showMap = findViewById(R.id.inner_map);
 
     }
 
@@ -74,10 +76,12 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
             SelectMode.this.overridePendingTransition(0, 0);
             finish();
         } else if (id == R.id.mode_left) {
-            selectedMap = (selectedMap - 1) % 3;
+            selectedMap = (selectedMap + 2) % 3;
+            showMap.setImageResource(seriesImages[selectedMap]);
 
         } else if (id == R.id.mode_right) {
             selectedMap = (selectedMap + 1) % 3;
+            showMap.setImageResource(seriesImages[selectedMap]);
         }
 
     }
