@@ -52,7 +52,13 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
 
         setContentView(R.layout.activity_main);
         initView();
+        initData();
 
+
+    }
+    private void initData() {
+        musicService = new MusicService();
+        musicService.play(this,R.raw.first_bg,true);
         Intent intent = new Intent(FirstPage.this, MusicService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
@@ -63,8 +69,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         gameTips = findViewById(R.id.game_tips);
         gameTips.setOnClickListener(this);
 
-        musicService = new MusicService();
-        musicService.play(this,R.raw.first_bg,true);
+
     }
 
     @Override

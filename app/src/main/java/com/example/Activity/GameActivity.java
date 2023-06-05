@@ -1,9 +1,12 @@
 package com.example.Activity;
 
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
@@ -16,12 +19,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Listener.GameListener;
 import com.example.Manager.gameManager;
-import com.example.myfunctions.MusicPlayer;
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.MapData;
 import com.example.qbomb.R;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener, GameListener {
-    private MusicPlayer music;
+    private MusicService musicService;
+    private ServiceConnection serviceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
+            musicService=binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
     gameManager gameView;
     MapData map = new MapData();
     Button btn_up, btn_down, btn_left, btn_right, btn_bomb;
@@ -72,9 +86,17 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.gamemap);
         initData();
         initView();
+        initMusic();
         setInfo(
                 gameView.getStates()
         );
+    }
+
+    private void initMusic() {
+        musicService = new MusicService();
+        musicService.play(this,R.raw.gaming,true);
+        Intent intent=new Intent(GameActivity.this, MusicService.class);
+        bindService(intent,serviceConnection,BIND_AUTO_CREATE);
     }
 
     private void initView(){
@@ -94,14 +116,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         gameView.setGameListener(this);
         gameView.setMap(map.mapDataList.get(5));
 
-
-
-        music = new MusicPlayer();
-        music.play(this, R.raw.gaming,true);
     }
     private void initData(){
         Intent tempIntent = getIntent();
-        int figureID = tempIntent.getIntExtra("figure", 0);
+        int figureID = tempIntent.getIntExtra("figure", 1);
         int [] figureIDList = {
                 R.drawable.slot_bazzi,
                 R.drawable.slot_dao,
@@ -247,21 +265,18 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onResume(){
         super.onResume();
-        music.play(this, R.raw.gaming,true);
+        musicService.play(this, R.raw.gaming,true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        music.pause();
+        musicService.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(music!=null){
-            music.stop();
-            music.release();
-        }
+        musicService.stop();
     }
 }

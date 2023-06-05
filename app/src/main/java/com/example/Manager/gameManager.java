@@ -1,6 +1,8 @@
 package com.example.Manager;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -19,6 +22,7 @@ import com.example.Listener.PlayerListener;
 import com.example.MovingObj.Robot;
 import com.example.MovingObj.Wave;
 import com.example.Listener.WaveListener;
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.MapData;
 import com.example.qbomb.R;
 
@@ -64,13 +68,31 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private GameListener gameListener;
     private int gameTime = 0;
     private Boolean isGameOver = false;
+    private MusicService musicService;
+    private ServiceConnection serviceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
+            musicService=binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
         initPlayer();
         initRobots();
         initTimer();
+        initMusic();
     }
+
+    private void initMusic() {
+        musicService = new MusicService();
+    }
+
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
         player1.setState(new int[]{2, 4, 300, 2});
@@ -193,6 +215,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     }
     @Override
     public void onBombExplode(Bomb bomb,Player player) {
+        musicService.Bomb(getContext());
         gameMap[bomb.getBomb_y()][bomb.getBomb_x()] = MapData.ROAD;
         player.Bomb_explode();
         int [][] map = new int[MAP_HEIGHT][MAP_WIDTH];

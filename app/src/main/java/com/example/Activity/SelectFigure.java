@@ -1,7 +1,10 @@
 package com.example.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfunctions.MusicPlayer;
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
 public class SelectFigure extends AppCompatActivity implements View.OnClickListener {
@@ -27,7 +31,18 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
     private ImageView select4;
 
 
-    private MusicPlayer music;
+    private MusicService musicService;
+    private ServiceConnection serviceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
+            musicService=binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
 
     private int selectedFigure=1;
     private int selectedMode;
@@ -49,13 +64,19 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.select_figure);
         initView();
         initData();
+        initMusic();
+    }
+
+    private void initMusic() {
+        musicService = new MusicService();
+        musicService.play(this,R.raw.mode_fig_bg,true);
+        Intent intent=new Intent(SelectFigure.this, MusicService.class);
+        bindService(intent,serviceConnection,BIND_AUTO_CREATE);
     }
 
     private void initData() {
         Intent intent = getIntent();
         selectedMode = intent.getIntExtra("map",0);
-        music = new MusicPlayer();
-        music.play(this, R.raw.mode_fig_bg,true);
     }
 
     private void initView() {
@@ -133,20 +154,19 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onResume(){
         super.onResume();
+        musicService.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        music.pause();
+        musicService.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(music!=null){
-            music.stop();
-            music.release();
-        }
+        musicService.stop();
+        unbindService(serviceConnection);
     }
 }

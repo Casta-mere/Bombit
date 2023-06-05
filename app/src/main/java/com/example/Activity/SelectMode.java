@@ -1,7 +1,10 @@
 package com.example.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfunctions.MusicPlayer;
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
 public class SelectMode extends AppCompatActivity implements View.OnClickListener {
@@ -18,11 +22,21 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     private Button next;
     private Button leftMap;
     private Button rightMap;
-    private static MusicPlayer music ;
     private ImageView showMap;
     private int selectedMap=0;
     private final int[] seriesImages = {R.drawable.map_demo,R.drawable.map_demo2,R.drawable.test_map};
+    private MusicService musicService;
+    private ServiceConnection serviceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
+            musicService=binder.getService();
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +58,10 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     }
 
     private void initData() {
-        music = new MusicPlayer();
-        music.play(this, R.raw.mode_fig_bg,true);
+        musicService = new MusicService();
+        musicService.play(this,R.raw.mode_fig_bg,true);
+        Intent intent=new Intent(SelectMode.this, MusicService.class);
+        bindService(intent,serviceConnection,BIND_AUTO_CREATE);
     }
 
     private void initView() {
@@ -71,10 +87,12 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
             finish();
          }
          else if(id ==  R.id.mode_next){
+            musicService.pause();
             Intent intent = new Intent(SelectMode.this,SelectFigure.class);
             intent.putExtra("map",selectedMap);
             startActivity(intent);
             SelectMode.this.overridePendingTransition(0, 0);
+
             finish();
         } else if (id == R.id.mode_left) {
             selectedMap = (selectedMap + 2) % 3;
@@ -90,21 +108,18 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onResume(){
         super.onResume();
-        music.resume();
+        musicService.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        music.pause();
+        musicService.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(music!=null){
-            music.stop();
-            music.release();
-        }
+        unbindService(serviceConnection);
     }
 }

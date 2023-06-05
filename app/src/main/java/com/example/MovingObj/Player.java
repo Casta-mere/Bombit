@@ -2,16 +2,23 @@ package com.example.MovingObj;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 
+import com.example.Activity.GameActivity;
 import com.example.Listener.BombListener;
 import com.example.Listener.PlayerListener;
+import com.example.myfunctions.MusicService;
 import com.example.myfunctions.bitmapManipulate;
 import com.example.qbomb.MapData;
+import com.example.qbomb.R;
 
 public class Player extends MovingObjects {
     private static final int FRAME_WIDTH_COUNT = 4;
@@ -36,6 +43,7 @@ public class Player extends MovingObjects {
     protected boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     private Context context;
+    private MusicService musicService = new MusicService();
     public Player(Context context,int player_src,PlayerListener playerListener,BombListener bombListener,int x,int y,int[][] gameMap){
         initPlayerBitmap(context,player_src);
         initData(x,y,gameMap,playerListener,bombListener);
@@ -130,6 +138,7 @@ public class Player extends MovingObjects {
             bombCurrent++;
             gameMap[player_place_y][player_place_x] = MapData.BOMB;
             playerListener.onSetBomb(bomb);
+            musicService.setBomb(context);
         }
 
     }

@@ -1,7 +1,5 @@
 package com.example.MovingObj;
 
-import android.graphics.Bitmap;
-
 public abstract class MovingObjects {
     protected static final int MAP_WIDTH = 15;
     protected static final int MAP_HEIGHT = 15;
