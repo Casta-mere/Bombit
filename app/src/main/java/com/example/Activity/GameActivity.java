@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Listener.GameListener;
 import com.example.Manager.gameManager;
+import com.example.MovingObj.Player;
 import com.example.myfunctions.MusicService;
 import com.example.qbomb.MapData;
 import com.example.qbomb.R;
@@ -68,6 +69,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     private final String SpeedIcon = "💨";
 
     private Handler handler;
+    private Player[] players;
+    private boolean[] isDead = new boolean[4];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,11 +90,43 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         initData();
         initView();
         initMusic();
-        setInfo(
-                gameView.getStates()
-        );
+        initPlayer();
     }
 
+    private void initPlayer() {
+        players = new Player[4];
+        players = gameView.getPlayers();
+        isDead = new boolean[]{false, false, false, false};
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        Thread.sleep(100);
+                        setInfo(getStates());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private int[][] getStates(){
+        int [][] states = new int[4][4];
+        for(int i = 0; i < 4; i++){
+            if(!isDead[i]){
+                if(!players[i].isAlive){
+                    isDead[i] = true;
+                    players[i] = null;
+                } else {
+                    states[i] = players[i].getState();
+                }
+            } else
+                states[i]=new int[]{0,0,0,0};
+        }
+        return states;
+    }
     private void initMusic() {
         musicService = new MusicService();
         musicService.play(this,R.raw.gaming,true);

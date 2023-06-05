@@ -1,10 +1,7 @@
 package com.example.Manager;
 
-import static com.example.qbomb.MapData.PROP;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.os.IBinder;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -40,8 +36,8 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     final int WALL = MapData.WALL;
     final int ROAD = MapData.ROAD;
     final int BLOCK =  MapData.BLOCK;
-    final int bomb = MapData.BOMB;
-    final int prop = PROP;
+    final int BOMB = MapData.BOMB;
+    final int PROP = MapData.PROP;
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
     Bitmap bitmap_block;
@@ -363,6 +359,12 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         states[3]=my_robots.get(1).getState();
         return states;
     }
-
-
+    public Player[] getPlayers(){
+        Player[] players = new Player[4];
+        players[0]=player1;
+        players[1]=my_robots.get(0);
+        players[2]=my_robots.get(2);
+        players[3]=my_robots.get(1);
+        return players;
+    }
 }

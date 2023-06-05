@@ -40,7 +40,7 @@ public class Player extends MovingObjects {
     private int bombMax = 1;
     private int bombCurrent = 0;
     private int life = 1;
-    protected boolean isAlive = true;
+    public boolean isAlive = true;
     private ValueAnimator playerAnimator=new ValueAnimator();
     private Context context;
     private MusicService musicService = new MusicService();
