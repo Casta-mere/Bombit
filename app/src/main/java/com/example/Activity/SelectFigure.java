@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myfunctions.MusicPlayer;
 import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
@@ -107,7 +106,7 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
         int id = view.getId();
         if(id == R.id.figure_back){
             System.out.println("figure back");
-            Intent intent = new Intent(SelectFigure.this, SelectMode.class);
+            Intent intent = new Intent(SelectFigure.this, SelectMap.class);
             startActivity(intent);
             SelectFigure.this.overridePendingTransition(0, 0);
             finish();

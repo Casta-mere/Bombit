@@ -1,42 +1,35 @@
 package com.example.Activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myfunctions.MusicPlayer;
-import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
-public class SelectMode extends AppCompatActivity implements View.OnClickListener {
-    private Button back;
-    private Button next;
-    private Button leftMap;
-    private Button rightMap;
-    private ImageView showMap;
-    private int selectedMap=0;
-    private final int[] seriesImages = {R.drawable.map_demo,R.drawable.map_demo2,R.drawable.test_map};
-    private MusicService musicService;
-    private ServiceConnection serviceConnection=new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
-            musicService=binder.getService();
-        }
+public class SelectMode extends AppCompatActivity implements View.OnClickListener{
+    private TextView text_classic;
+    private TextView text_kill;
+    private ImageView modeClassic;
+    private ImageView modeKill;
+    private Button simple;
+    private Button normal;
+    private Button hard;
+    private Button min1;
+    private Button min2;
+    private Button min3;
+    private Button tempBack;
+    private Button tempNext;
+    private int selectedMode;
+    private int selectedTime;
+    private int selectedDiff;
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,76 +50,105 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
         initData();
     }
 
-    private void initData() {
-//        Intent tempIntent = getIntent();
-//        int tempTime = tempIntent.getIntExtra("time",-1);
-//        int tempMode = tempIntent.getIntExtra("mode",-1);
-//        int tempDiff = tempIntent.getIntExtra("difficulty",-1);
-//        System.out.println(tempMode);
-//        System.out.println(tempTime);
-//        System.out.println(tempDiff);
-        musicService = new MusicService();
-        musicService.play(this,R.raw.mode_fig_bg,true);
-        Intent intent=new Intent(SelectMode.this, MusicService.class);
-        bindService(intent,serviceConnection,BIND_AUTO_CREATE);
+    private void initView() {
+        text_classic = findViewById(R.id.text_classic);
+        text_kill = findViewById(R.id.text_kill);
+        modeClassic = findViewById(R.id.mode_classic);
+        modeKill = findViewById(R.id.mode_kill);
+        simple = findViewById(R.id.simple);
+        simple.setOnClickListener(this);
+        normal = findViewById(R.id.normal);
+        normal.setOnClickListener(this);
+        hard = findViewById(R.id.hard);
+        hard.setOnClickListener(this);
+        min1 = findViewById(R.id.min1);
+        min1.setOnClickListener(this);
+        min2 = findViewById(R.id.min2);
+        min2.setOnClickListener(this);
+        min3 = findViewById(R.id.min3);
+        min3.setOnClickListener(this);
+        tempBack = findViewById(R.id.temp_back);
+        tempBack.setOnClickListener(this);
+        tempNext = findViewById(R.id.temp_next);
+        tempNext.setOnClickListener(this);
     }
 
-    private void initView() {
-        back = findViewById(R.id.mode_back);
-        back.setOnClickListener(this);
-        next = findViewById(R.id.mode_next);
-        next.setOnClickListener(this);
-        leftMap = findViewById(R.id.mode_left);
-        leftMap.setOnClickListener(this);
-        rightMap = findViewById(R.id.mode_right);
-        rightMap.setOnClickListener(this);
-        showMap = findViewById(R.id.inner_map);
+    private void initData() {
+        min1.setSelected(true);
+        simple.setSelected(true);
+        modeClassic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modeKill.setImageResource(R.drawable.map_demo2);
+                text_kill.setVisibility(View.INVISIBLE);
+                modeClassic.setImageResource(R.drawable.mask_mode_classic);
+                text_classic.setVisibility(View.VISIBLE);
+                selectedMode=0;
+            }
+        });
+        modeKill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modeClassic.setImageResource(R.drawable.map_demo);
+                text_classic.setVisibility(View.INVISIBLE);
+                modeKill.setImageResource(R.drawable.mask_mode_kill);
+                text_kill.setVisibility(View.VISIBLE);
+                selectedMode=1;
+            }
+        });
+
+        selectedMode = 0;
+        selectedTime = 0;
+        selectedDiff = 0;
 
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id== R.id.mode_back){
-            Intent intent = new Intent(SelectMode.this,SelectM.class);
+        if(id == R.id.simple){
+            selectedDiff=0;
+            simple.setSelected(true);
+            normal.setSelected(false);
+            hard.setSelected(false);
+        } else if (id == R.id.normal) {
+            selectedDiff=1;
+            simple.setSelected(false);
+            normal.setSelected(true);
+            hard.setSelected(false);
+        } else if (id == R.id.hard) {
+            selectedDiff=2;
+            simple.setSelected(false);
+            normal.setSelected(false);
+            hard.setSelected(true);
+        } else if (id == R.id.min1) {
+            selectedTime=1;
+            min1.setSelected(true);
+            min2.setSelected(false);
+            min3.setSelected(false);
+        } else if (id == R.id.min2) {
+            selectedTime=2;
+            min1.setSelected(false);
+            min2.setSelected(true);
+            min3.setSelected(false);
+        } else if (id == R.id.min3) {
+            selectedTime=3;
+            min1.setSelected(false);
+            min2.setSelected(false);
+            min3.setSelected(true);
+        } else if (id == R.id.temp_back) {
+            Intent intent = new Intent(SelectMode.this, FirstPage.class);
             startActivity(intent);
             SelectMode.this.overridePendingTransition(0, 0);
             finish();
-         }
-         else if(id ==  R.id.mode_next){
-            musicService.pause();
-            Intent intent = new Intent(SelectMode.this,SelectFigure.class);
-            intent.putExtra("map",selectedMap);
+        } else if (id == R.id.temp_next) {
+            Intent intent = new Intent(SelectMode.this, SelectMap.class);
+            intent.putExtra("time",selectedTime);
+            intent.putExtra("difficulty",selectedDiff);
+            intent.putExtra("mode",selectedMode);
             startActivity(intent);
             SelectMode.this.overridePendingTransition(0, 0);
-
             finish();
-        } else if (id == R.id.mode_left) {
-            selectedMap = (selectedMap + 2) % 3;
-            showMap.setImageResource(seriesImages[selectedMap]);
-
-        } else if (id == R.id.mode_right) {
-            selectedMap = (selectedMap + 1) % 3;
-            showMap.setImageResource(seriesImages[selectedMap]);
         }
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        musicService.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        musicService.pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(serviceConnection);
     }
 }

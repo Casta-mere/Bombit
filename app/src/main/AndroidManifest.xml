@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Activity.SelectMode"
+            android:name="com.example.Activity.SelectMap"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -86,7 +86,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.Activity.SelectM"
+            android:name="com.example.Activity.SelectMode"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

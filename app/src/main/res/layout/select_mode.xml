@@ -2,87 +2,246 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@drawable/map_theme">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/map_theme"
+    android:gravity="center">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/inner_map"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/map_demo2"/>
-
-        <ImageView
             android:id="@+id/map_container"
-            android:layout_width="380dp"
-            android:layout_height="350dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="@drawable/container" />
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/container2" />
 
-        <TextView
-            android:id="@+id/mode_title"
-            android:layout_width="440dp"
-            android:layout_height="70dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/mode_title"
-            android:fontFamily="@font/chn_string"
-            android:gravity="center"
-            android:text="  经典模式  "
-            android:textColor="@color/black"
-            android:textSize="36sp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/mode_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:background="@drawable/arrow_left" />
+            <TextView
+                android:id="@+id/mode_title"
+                android:layout_width="440dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/mode_title"
+                android:fontFamily="@font/chn_string"
+                android:gravity="center"
+                android:text="  游戏设置  "
+                android:textColor="@color/black"
+                android:textSize="36sp" />
 
-        <Button
-            android:id="@+id/mode_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:gravity="center"
-            android:background="@drawable/arrow_right" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/mode_classic"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/mask_mode_classic" />
+
+                    <TextView
+                        android:id="@+id/text_classic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="普通模式"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/chn_string"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/mode_kill"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/map_demo2" />
+
+                    <TextView
+                        android:id="@+id/text_kill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="薄纱模式"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/chn_string"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:visibility="invisible"/>
+
+                </FrameLayout>
 
 
-        <Button
-            android:id="@+id/mode_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="100dp"
-            android:background="@drawable/btn_background"
-            android:fontFamily="@font/chn_string"
-            android:textColor="@color/black"
-            android:text="  返回  "
-            android:textSize="36sp" />
 
-        <Button
-            android:id="@+id/mode_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="100dp"
-            android:background="@drawable/btn_background"
-            android:fontFamily="@font/chn_string"
-            android:textColor="@color/black"
-            android:text="  继续  "
-            android:textSize="36sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="  时间(min)  "
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/min1"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:layout_marginLeft="35dp"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected"/>
+
+                <Button
+                    android:id="@+id/min2"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
+
+                <Button
+                    android:id="@+id/min3"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="  难度选择  "
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <Button
+                    android:id="@+id/simple"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:layout_marginLeft="35dp"
+                    android:gravity="center"
+                    android:text="简\n单"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
+
+                <Button
+                    android:id="@+id/normal"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="普\n通"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
+
+                <Button
+                    android:id="@+id/hard"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/chn_string"
+                    android:gravity="center"
+                    android:text="困\n难"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/temp_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_background"
+                    android:fontFamily="@font/chn_string"
+                    android:text="  返回  "
+                    android:textColor="@color/black"
+                    android:textSize="36sp" />
+
+                <Button
+                    android:id="@+id/temp_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/btn_background"
+                    android:fontFamily="@font/chn_string"
+                    android:text="  继续  "
+                    android:textColor="@color/black"
+                    android:textSize="36sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
 
     </FrameLayout>
 
