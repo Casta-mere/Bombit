@@ -93,7 +93,38 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         initView();
         initMusic();
         initPlayer();
+        initConfig();
         setInfo(getStates());
+    }
+
+    private void initConfig() {
+        int map = getIntent().getIntExtra("map", 1);
+        int time = getIntent().getIntExtra("time", 1);
+        int mode = getIntent().getIntExtra("mode", 1);
+        int diff = getIntent().getIntExtra("diff", 1);
+        System.out.println("map: " + map + " time: " + time + " mode: " + mode + " diff: " + diff);
+        gameView.changeMapBitmap(map);
+        switch (time){
+            case 1:
+                gameView.setTime(60);
+                break;
+            case 2:
+                gameView.setTime(120);
+                break;
+            case 3:
+                gameView.setTime(180);
+                break;
+        }
+        switch (diff){
+            case 0:
+                gameView.setEasy();
+                break;
+            case 1:
+                break;
+            case 2:
+                gameView.setHard();
+                break;
+        }
     }
 
     private void initPlayer() {

@@ -44,7 +44,10 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
     };
 
     private int selectedFigure=1;
-    private int selectedMode;
+    private int map;
+    private int time;
+    private int diff;
+    private int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,10 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
 
     private void initData() {
         Intent intent = getIntent();
-        selectedMode = intent.getIntExtra("map",0);
+        map = intent.getIntExtra("map",0);
+        time = intent.getIntExtra("time",0);
+        diff = intent.getIntExtra("diff",0);
+        mode = intent.getIntExtra("mode",0);
     }
 
     private void initView() {
@@ -114,7 +120,10 @@ public class SelectFigure extends AppCompatActivity implements View.OnClickListe
         else if(id == R.id.figure_next){
             System.out.println("figure next");
             Intent intent = new Intent(SelectFigure.this,GameActivity.class);
-            intent.putExtra("map",selectedMode);
+            intent.putExtra("map",map);
+            intent.putExtra("time",time);
+            intent.putExtra("diff",diff);
+            intent.putExtra("mode",mode);
             intent.putExtra("figure",selectedFigure);
             startActivity(intent);
             SelectFigure.this.overridePendingTransition(0, 0);

@@ -70,7 +70,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private int gameTime = 0;
     private Boolean isGameOver = false;
     private MusicService musicService;
-    private int LeftTime ;
+    private int LeftTime = 60;
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
@@ -87,7 +87,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     }
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
-//        player1.setState(new int[]{2, 4, 300, 2});
+
     }
     private void initRobots(){
         Robot robot1 = new Robot(this.getContext(), R.drawable.robot1,this, this,13,1,gameMap);
@@ -96,9 +96,17 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         my_robots.add(robot1);
         my_robots.add(robot2);
         my_robots.add(robot3);
-//        robot1.setState(new int[]{1, 3, 300, 1});
-//        robot2.setState(new int[]{1, 2, 400, 1});
-//        robot3.setState(new int[]{3, 3, 200, 2});
+    }
+    public void setHard(){
+        my_robots.get(0).setState(new int[]{1, 3, 300, 1});
+        my_robots.get(1).setState(new int[]{1, 2, 400, 1});
+        my_robots.get(2).setState(new int[]{3, 3, 200, 1});
+    }
+    public void setEasy(){
+        player1.setState(new int[]{2, 4, 300, 2});
+    }
+    public void setTime(int time){
+        LeftTime = time;
     }
     public void initProps() {
         for(int i = 3;i<MAP_WIDTH-3;i++){
@@ -134,7 +142,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         }).start();
     }
     private void initData(){
-        changeMapBitmap(2);
+        changeMapBitmap(0);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -148,7 +156,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
             }
         }, FRAME_RATE);
     }
-    private void changeMapBitmap(int mapType){
+    public void changeMapBitmap(int mapType){
         switch(mapType){
             case 0:
                 bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.wall_0);
@@ -168,7 +176,6 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         }
     }
     private void initTimer(){
-        LeftTime = 5;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -178,7 +185,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
                         gameTime++;
                         LeftTime--;
                         gameListener.onTimeChanged(LeftTime);
-                        if(LeftTime == 0){
+                        if(LeftTime <= 0){
                             isGameOver = true;
                             tie();
                         }

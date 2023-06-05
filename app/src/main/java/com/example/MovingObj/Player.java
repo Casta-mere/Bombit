@@ -295,7 +295,7 @@ public class Player extends MovingObjects {
                     player_bomb_power++;
                 break;
             case 3:
-                if(life<4)
+                if(life<6)
                     life++;
                 break;
         }

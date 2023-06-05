@@ -25,6 +25,9 @@ public class SelectMap extends AppCompatActivity implements View.OnClickListener
     private int selectedMap=0;
     private final int[] seriesImages = {R.drawable.map_demo0,R.drawable.map_demo1,R.drawable.map_demo3};
     private MusicService musicService;
+    private int tempTime;
+    private int tempMode;
+    private int tempDiff;
     private ServiceConnection serviceConnection=new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -57,10 +60,10 @@ public class SelectMap extends AppCompatActivity implements View.OnClickListener
     }
 
     private void initData() {
-//        Intent tempIntent = getIntent();
-//        int tempTime = tempIntent.getIntExtra("time",-1);
-//        int tempMode = tempIntent.getIntExtra("mode",-1);
-//        int tempDiff = tempIntent.getIntExtra("difficulty",-1);
+        Intent tempIntent = getIntent();
+        tempTime = tempIntent.getIntExtra("time",-1);
+        tempMode = tempIntent.getIntExtra("mode",-1);
+        tempDiff = tempIntent.getIntExtra("difficulty",-1);
 //        System.out.println(tempMode);
 //        System.out.println(tempTime);
 //        System.out.println(tempDiff);
@@ -96,6 +99,10 @@ public class SelectMap extends AppCompatActivity implements View.OnClickListener
             musicService.pause();
             Intent intent = new Intent(SelectMap.this,SelectFigure.class);
             intent.putExtra("map",selectedMap);
+            intent.putExtra("time",tempTime);
+            intent.putExtra("mode",tempMode);
+            intent.putExtra("diff",tempDiff);
+
             startActivity(intent);
             SelectMap.this.overridePendingTransition(0, 0);
 
