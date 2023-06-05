@@ -114,9 +114,9 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_bomb.setOnTouchListener(this);
 
         gameView.setGameListener(this);
-        gameView.setMap(map.mapDataList.get(5));
+//        gameView.setMap(map.mapDataList.get((int) Math.random()*6));
+        gameView.setMap(map.mapDataList.get(6));
         gameView.initProps();
-
     }
     private void initData(){
         Intent tempIntent = getIntent();

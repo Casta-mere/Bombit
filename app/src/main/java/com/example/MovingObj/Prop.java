@@ -14,7 +14,7 @@ import com.example.qbomb.MapData;
 import com.example.qbomb.R;
 import com.example.myfunctions.bitmapManipulate;
 
-public class Prop {
+public class Prop implements Runnable{
     private static final int PROP_TYPE_NUM = 4;
     private static final int PROP_TYPE_BOMB_NUM = 0;
     private static final int PROP_TYPE_SPEED = 1;
@@ -86,4 +86,19 @@ public class Prop {
         Rect dst = new Rect((int)left,(int)top,(int)right,(int)bottom);
         canvas.drawBitmap(prop[propType],null,dst,paint);;
     }
+    public int getProp_x(){return x;}
+    public int getProp_y(){return y;}
+    public int getPropType(){return propType;}
+
+    @Override
+    public void run() {
+        try {
+            while(propListener.PropDetect(this)) {
+                Thread.sleep(100);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

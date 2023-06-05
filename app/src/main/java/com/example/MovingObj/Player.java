@@ -280,4 +280,24 @@ public class Player extends MovingObjects {
     public int getLife(){
         return life;
     }
+    public void boost(int type){
+        switch (type){
+            case 0:
+                if(bombMax<5)
+                    bombMax++;
+                break;
+            case 1:
+                if(player_speed>200)
+                    player_speed-=50;
+                break;
+            case 2:
+                if(player_bomb_power<3)
+                    player_bomb_power++;
+                break;
+            case 3:
+                if(life<4)
+                    life++;
+                break;
+        }
+    }
 }

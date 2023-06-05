@@ -109,8 +109,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
                 if(gameMap[i][j] == ROAD){
                     int random = (int)(Math.random()*30);
                     if(random < 4){
-                        Prop prop = new Prop(this.getContext(),j,i,random,this);
-                        my_props.add(prop);
+                        newProp(j,i);
                     }
                 }
             }
@@ -307,12 +306,29 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
 //        System.out.println("New Bomb");
     }
     @Override
-    public void onPropGet(int type, Prop prop) {
+    public boolean PropDetect(Prop prop) {
+        int x = prop.getProp_x();
+        int y = prop.getProp_y();
 
+//        System.out.println("x:"+x+" y:"+y+" player_x:"+player1.getPlayer_place_x()+" player_y:"+player1.getPlayer_place_y()+"");
+        if(player1.getPlayer_place_x()==x&&player1.getPlayer_place_y()==y){
+            player1.boost(prop.getPropType());
+            my_props.remove(prop);
+            return false;
+        }
+        for (int i = 0; i < my_robots.size(); i++) {
+            if(my_robots.get(i).getPlayer_place_x()==x&&my_robots.get(i).getPlayer_place_y()==y){
+                my_robots.get(i).boost(prop.getPropType());
+                my_props.remove(prop);
+                return false;
+            }
+        }
+        return true;
     }
     private void newProp(int x,int y){
         int propType = (int)(Math.random()*4);
         Prop prop = new Prop(getContext(),x,y,propType,this);
+        new Thread(prop).start();
         my_props.add(prop);
     }
     private void win(){
