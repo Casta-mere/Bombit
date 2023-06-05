@@ -86,7 +86,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     }
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
-        player1.setState(new int[]{2, 4, 300, 2});
+//        player1.setState(new int[]{2, 4, 300, 2});
     }
     private void initRobots(){
         Robot robot1 = new Robot(this.getContext(), R.drawable.robot1,this, this,13,1,gameMap);
@@ -95,13 +95,13 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         my_robots.add(robot1);
         my_robots.add(robot2);
         my_robots.add(robot3);
-        robot1.setState(new int[]{1, 3, 300, 1});
-        robot2.setState(new int[]{1, 2, 400, 1});
-        robot3.setState(new int[]{3, 3, 200, 2});
+//        robot1.setState(new int[]{1, 3, 300, 1});
+//        robot2.setState(new int[]{1, 2, 400, 1});
+//        robot3.setState(new int[]{3, 3, 200, 2});
     }
     public void initProps() {
-        for(int i = 4;i<MAP_WIDTH-4;i++){
-            for(int j = 4;j<MAP_HEIGHT-4;j++){
+        for(int i = 3;i<MAP_WIDTH-3;i++){
+            for(int j = 3;j<MAP_HEIGHT-3;j++){
                 if(gameMap[i][j] == ROAD){
                     int random = (int)(Math.random()*30);
                     if(random < 4){
@@ -110,6 +110,27 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
                 }
             }
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isGameOver){
+                    try {
+                        Thread.sleep(20000);
+                        Boolean isHaveProp = true;
+                        while(isHaveProp){
+                            int randomX = (int)(Math.random()*MAP_WIDTH);
+                            int randomY = (int)(Math.random()*MAP_HEIGHT);
+                            if(gameMap[randomY][randomX] == ROAD){
+                                newProp(randomX,randomY);
+                                isHaveProp = false;
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
     private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.f_block_01);
@@ -265,7 +286,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         if(gameMap[y][x] == BLOCK){
             gameMap[y][x] = ROAD;
             flag = true;
-            int rand = (int)(Math.random()*10);
+            int rand = (int)(Math.random()*5);
             if(rand == 0)
                 newProp(x,y);
         }else if(gameMap[y][x] == WALL){
@@ -294,6 +315,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
                 gameOver();
             }
         }
+        gameListener.onDataChanged();
     }
     @Override
     public void onSetBomb(Bomb bomb) {
@@ -310,12 +332,14 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         if(player1.getPlayer_place_x()==x&&player1.getPlayer_place_y()==y){
             player1.boost(prop.getPropType());
             my_props.remove(prop);
+            gameListener.onDataChanged();
             return false;
         }
         for (int i = 0; i < my_robots.size(); i++) {
             if(my_robots.get(i).getPlayer_place_x()==x&&my_robots.get(i).getPlayer_place_y()==y){
                 my_robots.get(i).boost(prop.getPropType());
                 my_props.remove(prop);
+                gameListener.onDataChanged();
                 return false;
             }
         }

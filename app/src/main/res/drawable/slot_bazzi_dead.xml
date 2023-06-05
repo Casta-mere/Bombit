@@ -1,0 +1,6 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 底部图片 -->
+    <item android:drawable="@drawable/slot_bazzi"/>
+    <!-- 蒙版 -->
+    <item android:drawable="@drawable/mask"/>
+</layer-list>

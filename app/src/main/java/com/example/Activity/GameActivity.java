@@ -91,25 +91,13 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         initView();
         initMusic();
         initPlayer();
+        setInfo(getStates());
     }
 
     private void initPlayer() {
         players = new Player[4];
         players = gameView.getPlayers();
         isDead = new boolean[]{false, false, false, false};
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        Thread.sleep(100);
-                        setInfo(getStates());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
     }
 
     private int[][] getStates(){
@@ -118,7 +106,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
             if(!isDead[i]){
                 if(!players[i].isAlive){
                     isDead[i] = true;
-                    players[i] = null;
+                    playerDeadImage(i);
+                    setInfo(getStates());
                 } else {
                     states[i] = players[i].getState();
                 }
@@ -186,24 +175,52 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
+    private void playerDeadImage(int playerID){
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                switch (playerID){
+                    case 1:
+                        ImageView temp = findViewById(R.id.char2_slot);
+                        temp.setImageResource(R.drawable.slot_robot1_dead);
+                        break;
+                    case 2:
+                        temp = findViewById(R.id.char4_slot);
+                        temp.setImageResource(R.drawable.slot_robot2_dead);
+                        break;
+                    case 3:
+                        temp = findViewById(R.id.char3_slot);
+                        temp.setImageResource(R.drawable.slot_robot3_dead);
+                        break;
+                }
+            }
+        });
+
+
+    }
+
 
     private void setInfo(int[][] info){
-        char1_live.setText(LiveIcon +   "   " + info[0][0]);
-        char2_live.setText(LiveIcon +   "   " + info[1][0]);
-        char3_live.setText(LiveIcon +   "   " + info[2][0]);
-        char4_live.setText(LiveIcon +   "   " + info[3][0]);
-        char1_bomb.setText(BombIcon +   "   " + info[0][1]);
-        char2_bomb.setText(BombIcon +   "   " + info[1][1]);
-        char3_bomb.setText(BombIcon +   "   " + info[2][1]);
-        char4_bomb.setText(BombIcon +   "   " + info[3][1]);
-        char1_power.setText(PowerIcon + "   " + info[0][2]);
-        char2_power.setText(PowerIcon + "   " + info[1][2]);
-        char3_power.setText(PowerIcon + "   " + info[2][2]);
-        char4_power.setText(PowerIcon + "   " + info[3][2]);
-        char1_speed.setText(SpeedIcon + "   " + info[0][3]);
-        char2_speed.setText(SpeedIcon + "   " + info[1][3]);
-        char3_speed.setText(SpeedIcon + "   " + info[2][3]);
-        char4_speed.setText(SpeedIcon + "   " + info[3][3]);
+        runOnUiThread(new Runnable() {
+            public void run() {
+                char1_live.setText(LiveIcon + "   " + info[0][0]);
+                char2_live.setText(LiveIcon + "   " + info[1][0]);
+                char3_live.setText(LiveIcon + "   " + info[2][0]);
+                char4_live.setText(LiveIcon + "   " + info[3][0]);
+                char1_bomb.setText(BombIcon + "   " + info[0][1]);
+                char2_bomb.setText(BombIcon + "   " + info[1][1]);
+                char3_bomb.setText(BombIcon + "   " + info[2][1]);
+                char4_bomb.setText(BombIcon + "   " + info[3][1]);
+                char1_power.setText(PowerIcon + "   " + info[0][2]);
+                char2_power.setText(PowerIcon + "   " + info[1][2]);
+                char3_power.setText(PowerIcon + "   " + info[2][2]);
+                char4_power.setText(PowerIcon + "   " + info[3][2]);
+                char1_speed.setText(SpeedIcon + "   " + info[0][3]);
+                char2_speed.setText(SpeedIcon + "   " + info[1][3]);
+                char3_speed.setText(SpeedIcon + "   " + info[2][3]);
+                char4_speed.setText(SpeedIcon + "   " + info[3][3]);
+            }
+        });
     }
 
     @Override
@@ -298,6 +315,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onDataChanged() {
+        setInfo(getStates());
+    }
+
     @Override
     public void onResume(){
         super.onResume();
