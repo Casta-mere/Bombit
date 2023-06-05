@@ -57,6 +57,7 @@
                         android:src="@drawable/mask_mode_classic" />
 
                     <TextView
+                        android:id="@+id/text_classic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -75,15 +76,17 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/map_demo" />
+                        android:src="@drawable/map_demo2" />
 
                     <TextView
+                        android:id="@+id/text_kill"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="薄纱模式"
                         android:textSize="20sp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:visibility="invisible"/>
 
                 </FrameLayout>
 

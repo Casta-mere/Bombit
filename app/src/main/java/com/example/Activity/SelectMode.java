@@ -58,6 +58,13 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     }
 
     private void initData() {
+        Intent tempIntent = getIntent();
+        int tempTime = tempIntent.getIntExtra("time",-1);
+        int tempMode = tempIntent.getIntExtra("mode",-1);
+        int tempDiff = tempIntent.getIntExtra("difficulty",-1);
+        System.out.println(tempMode);
+        System.out.println(tempTime);
+        System.out.println(tempDiff);
         musicService = new MusicService();
         musicService.play(this,R.raw.mode_fig_bg,true);
         Intent intent=new Intent(SelectMode.this, MusicService.class);

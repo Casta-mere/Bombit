@@ -7,13 +7,15 @@ import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qbomb.R;
 
 public class SelectM extends AppCompatActivity implements View.OnClickListener{
-
+    private TextView text_classic;
+    private TextView text_kill;
     private ImageView modeClassic;
     private ImageView modeKill;
     private Button simple;
@@ -24,6 +26,9 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
     private Button min3;
     private Button tempBack;
     private Button tempNext;
+    private int selectedMode;
+    private int selectedTime;
+    private int selectedDiff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,8 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void initView() {
+        text_classic = findViewById(R.id.text_classic);
+        text_kill = findViewById(R.id.text_kill);
         modeClassic = findViewById(R.id.mode_classic);
         modeKill = findViewById(R.id.mode_kill);
         simple = findViewById(R.id.simple);
@@ -67,23 +74,48 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void initData() {
+        modeClassic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modeKill.setImageResource(R.drawable.map_demo2);
+                text_kill.setVisibility(View.INVISIBLE);
+                modeClassic.setImageResource(R.drawable.mask_mode_classic);
+                text_classic.setVisibility(View.VISIBLE);
+                selectedMode=0;
+            }
+        });
+        modeKill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modeClassic.setImageResource(R.drawable.map_demo);
+                text_classic.setVisibility(View.INVISIBLE);
+                modeKill.setImageResource(R.drawable.mask_mode_kill);
+                text_kill.setVisibility(View.VISIBLE);
+                selectedMode=1;
+            }
+        });
+
+        selectedMode = 0;
+        selectedTime = 0;
+        selectedDiff = 0;
+
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.simple){
-
+            selectedDiff=0;
         } else if (id == R.id.normal) {
-
+            selectedDiff=1;
         } else if (id == R.id.hard) {
-            
+            selectedDiff=2;
         } else if (id == R.id.min1) {
-
+            selectedTime=1;
         } else if (id == R.id.min2) {
-
+            selectedTime=2;
         } else if (id == R.id.min3) {
-
+            selectedTime=3;
         } else if (id == R.id.temp_back) {
             Intent intent = new Intent(SelectM.this, FirstPage.class);
             startActivity(intent);
@@ -91,6 +123,9 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
             finish();
         } else if (id == R.id.temp_next) {
             Intent intent = new Intent(SelectM.this, SelectMode.class);
+            intent.putExtra("time",selectedTime);
+            intent.putExtra("difficulty",selectedDiff);
+            intent.putExtra("mode",selectedMode);
             startActivity(intent);
             SelectM.this.overridePendingTransition(0, 0);
             finish();
