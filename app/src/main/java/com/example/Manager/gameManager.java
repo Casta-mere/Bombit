@@ -70,6 +70,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private int gameTime = 0;
     private Boolean isGameOver = false;
     private MusicService musicService;
+    private int LeftTime ;
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
@@ -133,9 +134,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         }).start();
     }
     private void initData(){
-        bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.f_block_01);
-        bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.path_1);
-        bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.desert_grass_b_layer);
+        changeMapBitmap(2);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -149,16 +148,48 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
             }
         }, FRAME_RATE);
     }
+    private void changeMapBitmap(int mapType){
+        switch(mapType){
+            case 0:
+                bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.wall_0);
+                bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.road_0);
+                bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.block_0);
+                break;
+            case 1:
+                bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.wall_1);
+                bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.road_1);
+                bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.block_1);
+                break;
+            case 2:
+                bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.wall_2);
+                bitmap_road = BitmapFactory.decodeResource(getResources(), R.drawable.road_2);
+                bitmap_block = BitmapFactory.decodeResource(getResources(), R.drawable.block_2);
+                break;
+        }
+    }
     private void initTimer(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        LeftTime = 5;
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                gameTime++;
-                handler.postDelayed(this, 1000);
+                while (!isGameOver){
+                    try {
+                        Thread.sleep(1000);
+                        gameTime++;
+                        LeftTime--;
+                        gameListener.onTimeChanged(LeftTime);
+                        if(LeftTime == 0){
+                            isGameOver = true;
+                            tie();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        }, 0);
+        }).start();
     }
+
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int specWidthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -364,10 +395,9 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         }
     }
     private void tie() {
-        if(!isGameOver) {
-            isGameOver = true;
-            gameListener.onGameTie(gameTime,player1.getLife());
-        }
+        isGameOver = true;
+        gameListener.onGameTie(gameTime,player1.getLife());
+        gameOver();
     }
     private void gameOver(){
         player1.stop();

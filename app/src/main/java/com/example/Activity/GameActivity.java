@@ -4,6 +4,7 @@ package com.example.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -62,6 +63,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     private TextView char2_speed;
     private TextView char3_speed;
     private TextView char4_speed;
+    private TextView timeView;
 
     private final String LiveIcon = "❤";
     private final String BombIcon = "💣";
@@ -138,8 +140,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_bomb.setOnTouchListener(this);
 
         gameView.setGameListener(this);
-//        gameView.setMap(map.mapDataList.get((int) Math.random()*6));
-        gameView.setMap(map.mapDataList.get(6));
+        gameView.setMap(map.mapDataList.get((int) (Math.random()*6)));
+//        gameView.setMap(map.mapDataList.get(6));
         gameView.initProps();
     }
     private void initData(){
@@ -173,6 +175,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         char3_speed = findViewById(R.id.char3_speed);
         char4_speed = findViewById(R.id.char4_speed);
 
+        timeView = findViewById(R.id.game_timer);
     }
 
     private void playerDeadImage(int playerID){
@@ -185,18 +188,16 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                         temp.setImageResource(R.drawable.slot_robot1_dead);
                         break;
                     case 2:
-                        temp = findViewById(R.id.char4_slot);
-                        temp.setImageResource(R.drawable.slot_robot2_dead);
-                        break;
-                    case 3:
                         temp = findViewById(R.id.char3_slot);
                         temp.setImageResource(R.drawable.slot_robot3_dead);
+                        break;
+                    case 3:
+                        temp = findViewById(R.id.char4_slot);
+                        temp.setImageResource(R.drawable.slot_robot2_dead);
                         break;
                 }
             }
         });
-
-
     }
 
 
@@ -319,6 +320,18 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onDataChanged() {
         setInfo(getStates());
+    }
+
+    @Override
+    public void onTimeChanged(int time) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if(time<30)
+                    timeView.setTextColor(Color.RED);
+                String timeString = String.format("%01d:%02d", time / 60, time % 60);
+                timeView.setText(timeString);
+            }
+        });
     }
 
     @Override

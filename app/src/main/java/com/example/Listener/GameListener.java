@@ -5,4 +5,5 @@ public interface GameListener {
     void onGameWin(int time,int live);
     void onGameTie(int time,int live);
     void onDataChanged();
+    void onTimeChanged(int time);
 }
