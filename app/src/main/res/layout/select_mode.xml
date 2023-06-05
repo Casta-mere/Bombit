@@ -78,7 +78,7 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/map_demo2" />
+                        android:src="@drawable/map_demo3" />
 
                     <TextView
                         android:id="@+id/text_kill"

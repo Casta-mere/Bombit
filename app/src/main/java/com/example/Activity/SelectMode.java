@@ -1,7 +1,10 @@
 package com.example.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
 public class SelectMode extends AppCompatActivity implements View.OnClickListener{
@@ -29,7 +33,18 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     private int selectedMode;
     private int selectedTime;
     private int selectedDiff;
+    private MusicService musicService;
+    private ServiceConnection serviceConnection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
+            musicService=binder.getService();
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +63,14 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.select_mode);
         initView();
         initData();
+        initMusic();
+    }
+
+    private void initMusic() {
+        musicService = new MusicService();
+        musicService.play(this,R.raw.mode_fig_bg,true);
+        Intent intent=new Intent(SelectMode.this, MusicService.class);
+        bindService(intent,serviceConnection,BIND_AUTO_CREATE);
     }
 
     private void initView() {
@@ -79,7 +102,7 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
         modeClassic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modeKill.setImageResource(R.drawable.map_demo2);
+                modeKill.setImageResource(R.drawable.map_demo3);
                 text_kill.setVisibility(View.INVISIBLE);
                 modeClassic.setImageResource(R.drawable.mask_mode_classic);
                 text_classic.setVisibility(View.VISIBLE);
@@ -89,7 +112,7 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
         modeKill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modeClassic.setImageResource(R.drawable.map_demo);
+                modeClassic.setImageResource(R.drawable.map_demo2);
                 text_classic.setVisibility(View.INVISIBLE);
                 modeKill.setImageResource(R.drawable.mask_mode_kill);
                 text_kill.setVisibility(View.VISIBLE);
@@ -151,4 +174,22 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
             finish();
         }
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        musicService.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        musicService.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+    }
+
 }

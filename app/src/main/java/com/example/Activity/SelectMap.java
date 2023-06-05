@@ -23,7 +23,7 @@ public class SelectMap extends AppCompatActivity implements View.OnClickListener
     private Button rightMap;
     private ImageView showMap;
     private int selectedMap=0;
-    private final int[] seriesImages = {R.drawable.map_demo,R.drawable.map_demo2,R.drawable.test_map};
+    private final int[] seriesImages = {R.drawable.map_demo0,R.drawable.map_demo1,R.drawable.map_demo3};
     private MusicService musicService;
     private ServiceConnection serviceConnection=new ServiceConnection() {
         @Override

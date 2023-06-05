@@ -18,7 +18,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center"
-            android:src="@drawable/map_demo"/>
+            android:src="@drawable/map_demo0"/>
 
         <ImageView
             android:id="@+id/map_container"
