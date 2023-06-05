@@ -1,7 +1,10 @@
 package com.example.Activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfunctions.MusicService;
 import com.example.qbomb.R;
 
 public class SelectM extends AppCompatActivity implements View.OnClickListener{
@@ -74,6 +78,8 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void initData() {
+        min1.setSelected(true);
+        simple.setSelected(true);
         modeClassic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,16 +112,34 @@ public class SelectM extends AppCompatActivity implements View.OnClickListener{
         int id = view.getId();
         if(id == R.id.simple){
             selectedDiff=0;
+            simple.setSelected(true);
+            normal.setSelected(false);
+            hard.setSelected(false);
         } else if (id == R.id.normal) {
             selectedDiff=1;
+            simple.setSelected(false);
+            normal.setSelected(true);
+            hard.setSelected(false);
         } else if (id == R.id.hard) {
             selectedDiff=2;
+            simple.setSelected(false);
+            normal.setSelected(false);
+            hard.setSelected(true);
         } else if (id == R.id.min1) {
             selectedTime=1;
+            min1.setSelected(true);
+            min2.setSelected(false);
+            min3.setSelected(false);
         } else if (id == R.id.min2) {
             selectedTime=2;
+            min1.setSelected(false);
+            min2.setSelected(true);
+            min3.setSelected(false);
         } else if (id == R.id.min3) {
             selectedTime=3;
+            min1.setSelected(false);
+            min2.setSelected(false);
+            min3.setSelected(true);
         } else if (id == R.id.temp_back) {
             Intent intent = new Intent(SelectM.this, FirstPage.class);
             startActivity(intent);

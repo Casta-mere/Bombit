@@ -62,7 +62,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="普通模式"
-                        android:textSize="20sp"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
                         android:textColor="@color/white"/>
 
                 </FrameLayout>
@@ -84,7 +85,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="薄纱模式"
-                        android:textSize="20sp"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
                         android:textColor="@color/white"
                         android:visibility="invisible"/>
 
@@ -121,7 +123,8 @@
                     android:gravity="center"
                     android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="24sp"/>
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected"/>
 
                 <Button
                     android:id="@+id/min2"
@@ -131,7 +134,8 @@
                     android:gravity="center"
                     android:text="2"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
 
                 <Button
                     android:id="@+id/min3"
@@ -141,7 +145,8 @@
                     android:gravity="center"
                     android:text="3"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
 
 
             </LinearLayout>
@@ -151,7 +156,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -169,9 +175,10 @@
                     android:fontFamily="@font/chn_string"
                     android:layout_marginLeft="35dp"
                     android:gravity="center"
-                    android:text="简单"
+                    android:text="简\n单"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
 
                 <Button
                     android:id="@+id/normal"
@@ -179,9 +186,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/chn_string"
                     android:gravity="center"
-                    android:text="普通"
+                    android:text="普\n通"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
 
                 <Button
                     android:id="@+id/hard"
@@ -189,9 +197,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/chn_string"
                     android:gravity="center"
-                    android:text="困难"
+                    android:text="困\n难"
                     android:textColor="@color/black"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:background="@drawable/time_button_selected" />
 
 
             </LinearLayout>
@@ -200,7 +209,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/temp_back"
