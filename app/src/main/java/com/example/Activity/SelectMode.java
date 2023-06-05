@@ -81,7 +81,7 @@ public class SelectMode extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         int id = view.getId();
         if(id== R.id.mode_back){
-            Intent intent = new Intent(SelectMode.this,FirstPage.class);
+            Intent intent = new Intent(SelectMode.this,SelectM.class);
             startActivity(intent);
             SelectMode.this.overridePendingTransition(0, 0);
             finish();

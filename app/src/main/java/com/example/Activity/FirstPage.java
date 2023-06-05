@@ -76,7 +76,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.start_game){
-            Intent intent = new Intent(FirstPage.this, SelectMode.class);
+            Intent intent = new Intent(FirstPage.this, SelectM.class);
             startActivity(intent);
             FirstPage.this.overridePendingTransition(0, 0);
             finish();

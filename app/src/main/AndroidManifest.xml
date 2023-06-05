@@ -85,6 +85,15 @@
 
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.Activity.SelectM"
+            android:exported="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
