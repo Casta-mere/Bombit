@@ -118,7 +118,7 @@
                                     android:layout_weight="1"
                                     android:scaleX="0.5"
                                     android:scaleY="0.5"
-                                    android:background="@drawable/slot_robot1"/>
+                                    android:src="@drawable/slot_robot1"/>
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
@@ -189,7 +189,7 @@
                                     android:layout_weight="1"
                                     android:scaleX="0.5"
                                     android:scaleY="0.5"
-                                    android:background="@drawable/slot_robot3"/>
+                                    android:src="@drawable/slot_robot3"/>
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
@@ -253,7 +253,7 @@
                                     android:layout_weight="1"
                                     android:scaleX="0.5"
                                     android:scaleY="0.5"
-                                    android:background="@drawable/slot_robot2"/>
+                                    android:src="@drawable/slot_robot2"/>
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
