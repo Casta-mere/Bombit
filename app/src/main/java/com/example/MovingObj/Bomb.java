@@ -66,7 +66,6 @@ public class Bomb implements Runnable{
         }, 10);
 
     }
-
     public Bitmap getBomb(){
         return bomb[bombFrame];
     }
@@ -74,8 +73,6 @@ public class Bomb implements Runnable{
         Bitmap bomb_all = BitmapFactory.decodeResource(context.getResources(), bomb_src);
         bomb_FrameWidth = bomb_all.getWidth() / FRAME_WIDTH_COUNT;
         bomb_FrameHeight = bomb_all.getHeight();
-        System.out.println(String.format("bomb_FrameWidth is %d", bomb_FrameWidth));
-        System.out.println(String.format("bomb_FrameHeight is %d", bomb_FrameHeight));
         bomb = new Bitmap[FRAME_WIDTH_COUNT];
         for(int i=0;i<FRAME_WIDTH_COUNT;i++){
             int left = i * bomb_FrameWidth;
@@ -91,7 +88,6 @@ public class Bomb implements Runnable{
         }
 
     }
-
     public void drawBomb(Canvas mCanvas, Paint mPaint,int  width, int height){
         float left = (width/MAP_WIDTH)*x;
         float top = (height/MAP_HEIGHT)*y;
@@ -101,7 +97,6 @@ public class Bomb implements Runnable{
         Rect rect = new Rect((int)left, (int)top, (int)right, (int)bottom);
         mCanvas.drawBitmap(ans, null, rect, mPaint);
     }
-
     @Override
     public void run() {
         try {
@@ -111,12 +106,10 @@ public class Bomb implements Runnable{
             e.printStackTrace();
         }
     }
-
     private void explode(){
         isExplode = true;
         bombListener.onBombExplode(this, player);
     }
-
     public int getBomb_x() {return x;}
     public int getBomb_y() {return y;}
     public int getBombPower() {return bombPower;}

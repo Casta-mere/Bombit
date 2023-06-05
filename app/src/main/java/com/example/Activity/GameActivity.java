@@ -115,6 +115,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         gameView.setGameListener(this);
         gameView.setMap(map.mapDataList.get(5));
+        gameView.initProps();
 
     }
     private void initData(){

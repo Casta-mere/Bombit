@@ -1,5 +1,7 @@
 package com.example.Manager;
 
+import static com.example.qbomb.MapData.PROP;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
@@ -15,10 +17,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.example.Listener.GameListener;
+import com.example.Listener.PropListener;
 import com.example.MovingObj.Player;
 import com.example.MovingObj.Bomb;
 import com.example.Listener.BombListener;
 import com.example.Listener.PlayerListener;
+import com.example.MovingObj.Prop;
 import com.example.MovingObj.Robot;
 import com.example.MovingObj.Wave;
 import com.example.Listener.WaveListener;
@@ -28,7 +32,7 @@ import com.example.qbomb.R;
 
 import java.util.ArrayList;
 
-public class gameManager extends View implements BombListener, WaveListener, PlayerListener {
+public class gameManager extends View implements BombListener, WaveListener, PlayerListener, PropListener {
     final int MAP_HEIGHT = MapData.MAP_HEIGHT;
     final int MAP_WIDTH = MapData.MAP_WIDTH;
     private int screenWidth;
@@ -37,7 +41,7 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     final int ROAD = MapData.ROAD;
     final int BLOCK =  MapData.BLOCK;
     final int bomb = MapData.BOMB;
-    final int prop = MapData.PROP;
+    final int prop = PROP;
     Bitmap bitmap_wall ;
     Bitmap bitmap_road ;
     Bitmap bitmap_block;
@@ -65,34 +69,25 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private ArrayList<Bomb> my_bombs = new ArrayList<Bomb>();
     private ArrayList<Wave> my_waves = new ArrayList<Wave>();
     private ArrayList<Robot> my_robots = new ArrayList<Robot>();
+    private ArrayList<Prop> my_props = new ArrayList<Prop>();
     private GameListener gameListener;
     private int gameTime = 0;
     private Boolean isGameOver = false;
     private MusicService musicService;
-    private ServiceConnection serviceConnection=new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder= (MusicService.MusicBinder) service;
-            musicService=binder.getService();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
     public gameManager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initData();
         initPlayer();
         initRobots();
+//        initProps();
         initTimer();
         initMusic();
     }
 
+
     private void initMusic() {
         musicService = new MusicService();
     }
-
     private void initPlayer() {
         player1 = new Player(this.getContext(), R.drawable.red3,this, this,1,1,gameMap);
         player1.setState(new int[]{2, 4, 300, 2});
@@ -107,6 +102,19 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         robot1.setState(new int[]{1, 3, 300, 1});
         robot2.setState(new int[]{1, 2, 400, 1});
         robot3.setState(new int[]{3, 3, 200, 2});
+    }
+    public void initProps() {
+        for(int i = 4;i<MAP_WIDTH-4;i++){
+            for(int j = 4;j<MAP_HEIGHT-4;j++){
+                if(gameMap[i][j] == ROAD){
+                    int random = (int)(Math.random()*30);
+                    if(random < 4){
+                        Prop prop = new Prop(this.getContext(),j,i,random,this);
+                        my_props.add(prop);
+                    }
+                }
+            }
+        }
     }
     private void initData(){
         bitmap_wall = BitmapFactory.decodeResource(getResources(), R.drawable.f_block_01);
@@ -149,6 +157,9 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         mPaint.setStyle(Paint.Style.STROKE);
         this.mCanvas = canvas;
         paintMap();
+        for (int i = 0; i < my_props.size(); i++) {
+            my_props.get(i).drawProp(canvas, mPaint, screenWidth, screenHeight);
+        }
         for (int i = 0; i < my_bombs.size(); i++) {
             my_bombs.get(i).drawBomb(canvas, mPaint, screenWidth, screenHeight);
         }
@@ -174,6 +185,8 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
                         break;
                     case BLOCK:
                         mCanvas.drawBitmap(bitmap_block, null, rect, mPaint);
+                        break;
+                    case PROP:
                         break;
                 }
             }
@@ -257,6 +270,9 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         if(gameMap[y][x] == BLOCK){
             gameMap[y][x] = ROAD;
             flag = true;
+            int rand = (int)(Math.random()*10);
+            if(rand == 0)
+                newProp(x,y);
         }else if(gameMap[y][x] == WALL){
             flag = true;
         }
@@ -290,6 +306,15 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         new Thread(bomb).start();
 //        System.out.println("New Bomb");
     }
+    @Override
+    public void onPropGet(int type, Prop prop) {
+
+    }
+    private void newProp(int x,int y){
+        int propType = (int)(Math.random()*4);
+        Prop prop = new Prop(getContext(),x,y,propType,this);
+        my_props.add(prop);
+    }
     private void win(){
         if(!isGameOver) {
             isGameOver = true;
@@ -322,4 +347,6 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         states[3]=my_robots.get(1).getState();
         return states;
     }
+
+
 }
