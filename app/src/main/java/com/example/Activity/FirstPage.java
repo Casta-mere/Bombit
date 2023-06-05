@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,12 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
 
     private Button startGame;
     private Button gameTips;
+    private Button Rankings;
+    private ImageView board;
+
+    private RelativeLayout rl;
+
+
 
     private MusicService musicService;
     private ServiceConnection serviceConnection=new ServiceConnection() {
@@ -61,6 +70,15 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         musicService.play(this,R.raw.first_bg,true);
         Intent intent = new Intent(FirstPage.this, MusicService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+        rl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    board.setVisibility(View.INVISIBLE);
+                }
+                return true;
+            }
+        });
     }
 
     private void initView() {
@@ -68,7 +86,8 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         startGame.setOnClickListener(this);
         gameTips = findViewById(R.id.game_tips);
         gameTips.setOnClickListener(this);
-
+        rl = findViewById(R.id.page_1);
+        board = findViewById(R.id.board);
 
     }
 
@@ -81,7 +100,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
             FirstPage.this.overridePendingTransition(0, 0);
             finish();
         }else if(id == R.id.game_tips){
-            Toast.makeText(this,"哪来的及做的,下次一定",Toast.LENGTH_SHORT).show();
+            board.setVisibility(View.VISIBLE);
         }
 
     }
