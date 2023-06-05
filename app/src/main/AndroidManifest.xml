@@ -13,7 +13,7 @@
         android:theme="@style/Theme.QBomb"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.Activity.MainActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".FirstPage"
+            android:name="com.example.Activity.FirstPage"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectMode"
+            android:name="com.example.Activity.SelectMode"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectFigure"
+            android:name="com.example.Activity.SelectFigure"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameActivity"
+            android:name="com.example.Activity.GameActivity"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameWin"
+            android:name="com.example.Activity.GameWin"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameLose"
+            android:name="com.example.Activity.GameLose"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -77,7 +77,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GameTie"
+            android:name="com.example.Activity.GameTie"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

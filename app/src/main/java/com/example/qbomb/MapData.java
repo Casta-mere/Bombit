@@ -10,14 +10,13 @@ public class MapData {
     public static final int BLOCK = 2;
     public static final int BOMB = 3;
     public static final int PROP = 4;
-    ArrayList<int [] []> mapDataList = new ArrayList<>();
+    public ArrayList<int [] []> mapDataList = new ArrayList<>();
     public static boolean walk_able(int type){
         if(type == WALL||type == BLOCK||type == BOMB)
             return false;
         return true;
     }
     public MapData(){
-//        size = 15*15
         int [] [] mapData1 = {
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -103,7 +102,24 @@ public class MapData {
                 {1,0,0,2,2,2,2,2,2,2,2,2,0,0,1},
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
         };
-        int [ ][ ]  mapData6= {
+        int [ ][ ] mapData6 = {
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {1,0,0,2,2,0,0,2,0,2,2,0,0,0,1},
+                {1,0,1,2,1,1,2,1,1,0,1,1,1,0,1},
+                {1,2,2,2,2,2,2,2,2,0,2,0,0,2,1},
+                {1,0,1,1,1,1,2,1,1,1,2,1,1,1,1},
+                {1,0,0,2,1,2,2,2,2,0,2,0,2,1,1},
+                {1,1,2,0,0,2,1,1,1,0,1,2,2,1,1},
+                {1,2,1,2,0,2,1,1,1,0,1,2,0,1,1},
+                {1,0,2,2,2,0,0,0,0,0,1,2,2,0,1},
+                {1,2,1,0,1,1,0,1,1,0,1,2,2,0,1},
+                {1,0,2,0,2,2,0,2,0,2,1,2,1,0,1},
+                {1,0,1,1,0,0,1,0,2,2,1,2,1,0,1},
+                {1,0,1,2,1,1,1,2,1,1,1,2,1,0,1},
+                {1,0,0,0,2,2,2,0,0,2,0,2,2,0,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
+        int [ ][ ]  mapData7= {
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
                 {1,0,0,2,0,2,2,2,2,0,2,0,0,0,1},
                 {1,0,1,0,1,1,0,1,1,2,1,1,1,0,1},
@@ -121,13 +137,12 @@ public class MapData {
                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
         };
-
-
         mapDataList.add(mapData1);
         mapDataList.add(mapData2);
         mapDataList.add(mapData3);
         mapDataList.add(mapData4);
         mapDataList.add(mapData5);
         mapDataList.add(mapData6);
+        mapDataList.add(mapData7);
     }
 }
