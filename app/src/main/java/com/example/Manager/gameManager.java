@@ -392,18 +392,18 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
     private void win(){
         if(!isGameOver) {
             isGameOver = true;
-            gameListener.onGameWin(gameTime,player1.getLife());
+            gameListener.onGameWin(gameTime,player1.getLife(),getStates());
         }
     }
     private void lose(){
         if(!isGameOver) {
             isGameOver = true;
-            gameListener.onGameLose(gameTime,0);
+            gameListener.onGameLose(gameTime,0,getStates());
         }
     }
     private void tie() {
         isGameOver = true;
-        gameListener.onGameTie(gameTime,player1.getLife());
+        gameListener.onGameTie(gameTime,player1.getLife(),getStates());
         gameOver();
     }
     private void gameOver(){
@@ -412,13 +412,12 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
             my_robots.get(i).stop();
         }
     }
-    public int[][] getStates(){
-        int [][] states = new int[4][4];
-        states[0]=player1.getState();
-        states[1]=my_robots.get(0).getState();
-        states[2]=my_robots.get(2).getState();
-        states[3]=my_robots.get(1).getState();
-        return states;
+    public int getStates(){
+        int [] states = player1.getState();
+        int ans = 0;
+        for(int i = 0;i<4;i++)
+            ans+=states[i];
+        return ans;
     }
     public Player[] getPlayers(){
         Player[] players = new Player[4];

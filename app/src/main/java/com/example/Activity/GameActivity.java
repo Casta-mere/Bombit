@@ -25,6 +25,9 @@ import com.example.myfunctions.MusicService;
 import com.example.qbomb.MapData;
 import com.example.qbomb.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener, GameListener {
     private MusicService musicService;
     private ServiceConnection serviceConnection=new ServiceConnection() {
@@ -73,6 +76,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     private Handler handler;
     private Player[] players;
     private boolean[] isDead = new boolean[4];
+    private String startTime;
+    private int MaxTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,12 +105,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void initConfig() {
         int map = getIntent().getIntExtra("map", 1);
-        int time = getIntent().getIntExtra("time", 1);
+        MaxTime = getIntent().getIntExtra("time", 1);
         int mode = getIntent().getIntExtra("mode", 1);
         int diff = getIntent().getIntExtra("diff", 1);
-        System.out.println("map: " + map + " time: " + time + " mode: " + mode + " diff: " + diff);
+        System.out.println("map: " + map + " time: " + MaxTime + " mode: " + mode + " diff: " + diff);
         gameView.changeMapBitmap(map);
-        switch (time){
+        switch (MaxTime){
             case 1:
                 gameView.setTime(60);
                 break;
@@ -180,6 +185,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         gameView.initProps();
     }
     private void initData(){
+        startTime = new SimpleDateFormat("HH:mm").format(new Date());
         Intent tempIntent = getIntent();
         int figureID = tempIntent.getIntExtra("figure", 1);
         int [] figureIDList = {
@@ -326,28 +332,40 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public void onGameLose(int time,int life) {
+    public void onGameLose(int time,int life,int stateScore) {
+        int score = 100*stateScore+(60*MaxTime-time)*10;
         Intent intent = new Intent(GameActivity.this, GameLose.class);
         intent.putExtra("time", time);
         intent.putExtra("life", life);
+        intent.putExtra("startTime",startTime);
+        intent.putExtra("score",score);
+        System.out.println("score:"+score+" time:"+time+" life:"+life+" startTime:"+startTime);
         startActivity(intent);
         finish();
     }
 
     @Override
-    public void onGameWin(int time,int life) {
+    public void onGameWin(int time,int life,int stateScore) {
+        int score = 100*stateScore+(60*MaxTime-time)*10+2000;
         Intent intent = new Intent(GameActivity.this, GameWin.class);
         intent.putExtra("time", time);
         intent.putExtra("life", life);
+        intent.putExtra("startTime",startTime);
+        intent.putExtra("score",score);
+        System.out.println("score:"+score+" time:"+time+" life:"+life+" startTime:"+startTime);
         startActivity(intent);
         finish();
     }
 
     @Override
-    public void onGameTie(int time,int life) {
+    public void onGameTie(int time,int life,int stateScore) {
+        int score = 100*stateScore+(60*MaxTime-time)*10+1000;
         Intent intent = new Intent(GameActivity.this, GameTie.class);
         intent.putExtra("time", time);
         intent.putExtra("life", life);
+        intent.putExtra("startTime",startTime);
+        intent.putExtra("score",score);
+        System.out.println("score:"+score+" time:"+time+" life:"+life+" startTime:"+startTime);
         startActivity(intent);
         finish();
     }

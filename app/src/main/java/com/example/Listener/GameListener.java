@@ -1,9 +1,9 @@
 package com.example.Listener;
 
 public interface GameListener {
-    void onGameLose(int time,int live);
-    void onGameWin(int time,int live);
-    void onGameTie(int time,int live);
+    void onGameLose(int time,int live,int stateScore);
+    void onGameWin(int time,int live,int stateScore);
+    void onGameTie(int time,int live,int stateScore);
     void onDataChanged();
     void onTimeChanged(int time);
 }
