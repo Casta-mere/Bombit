@@ -50,11 +50,13 @@ public class GameRank extends AppCompatActivity implements View.OnClickListener 
         try {
             recyclerView = findViewById(R.id.ranking_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(GameRank.this));
+            ArrayList<Record> temp2d = new ArrayList<>();
             for(int j=0;j<RecordList.size();j++) {
-                String[] temp = {RecordList.get(j).getScore(),RecordList.get(j).getTimes(),RecordList.get(j).getTimeu()};
-                RankingAdapter adapter = new RankingAdapter(temp);
-                recyclerView.setAdapter(adapter);
+                temp2d.add(RecordList.get(j));
             }
+            RankingAdapter adapter = new RankingAdapter(new ArrayList<>());
+            adapter.setData(temp2d);
+            recyclerView.setAdapter(adapter);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -65,7 +67,7 @@ public class GameRank extends AppCompatActivity implements View.OnClickListener 
         dbm.insert_record("13:02","01:09","5000");
         dbm.insert_record("15:15","02:54","3600");
         RecordList = dbm.select_record();
-        System.out.println(RecordList.size());
+        System.out.println(RecordList.get(0).getTimeu());
     }
 
     private void initView() {

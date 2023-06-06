@@ -8,11 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qbomb.R;
 
-public class RankingAdapter extends RecyclerView.Adapter<RankingHolder> {
-    private String[] items;
+import java.util.ArrayList;
 
-    public RankingAdapter(String[] items) {
+public class RankingAdapter extends RecyclerView.Adapter<RankingHolder> {
+    private ArrayList<Record> items;
+
+    public RankingAdapter(ArrayList<Record> items) {
         this.items = items;
+    }
+
+    public void setData(ArrayList<Record> data) {
+        this.items = data;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -23,18 +30,14 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingHolder> {
 
     @Override
     public void onBindViewHolder(RankingHolder holder, int position) {
-        if (position %3 == 0) {
-            String temp = "    "+items[position];
-            holder.itemTs.setText(temp);
-            String temp1 = "    "+items[position+1]+"    ";
-            holder.itemTu.setText(temp1);
-            String temp2 = items[position+2]+"    ";
-            holder.itemSc.setText(temp2);
-        }
+        Record record = items.get(position);
+        holder.itemTs.setText("   "+record.getTimes()+"  ");
+        holder.itemTu.setText("    "+record.getTimeu()+"    ");
+        holder.itemSc.setText("  "+record.getScore()+"  ");
     }
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return items.size();
     }
 }
