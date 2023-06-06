@@ -59,13 +59,12 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         // 刘海屏适配
         getWindow().setDecorFitsSystemWindows(false);
 
-
         setContentView(R.layout.activity_main);
         initView();
         initData();
 
-
     }
+
     private void initData() {
         musicService = new MusicService();
         musicService.play(this,R.raw.first_bg,true);
@@ -94,9 +93,6 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         Rankings.setOnClickListener(this);
         rl = findViewById(R.id.page_1);
         board = findViewById(R.id.board);
-
-
-
 
     }
 

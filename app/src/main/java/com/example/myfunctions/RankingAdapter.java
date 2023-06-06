@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.qbomb.R;
 
 public class RankingAdapter extends RecyclerView.Adapter<RankingHolder> {
-    private int[] items;
+    private String[] items;
 
-    public RankingAdapter(int[] items) {
+    public RankingAdapter(String[] items) {
         this.items = items;
     }
 
@@ -24,9 +24,12 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingHolder> {
     @Override
     public void onBindViewHolder(RankingHolder holder, int position) {
         if (position %3 == 0) {
-            holder.itemTs.setText(String.valueOf(items[position]));
-            holder.itemTu.setText(String.valueOf(items[position+1]));
-            holder.itemSc.setText(String.valueOf(items[position+2]));
+            String temp = "    "+items[position];
+            holder.itemTs.setText(temp);
+            String temp1 = "    "+items[position+1]+"    ";
+            holder.itemTu.setText(temp1);
+            String temp2 = items[position+2]+"    ";
+            holder.itemSc.setText(temp2);
         }
     }
 

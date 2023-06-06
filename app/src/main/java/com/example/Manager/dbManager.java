@@ -37,7 +37,7 @@ public class dbManager {
     }
 
     // 添加到数据库
-    public void insert_record(int times, int timeu, int score) {
+    public void insert_record(String times, String timeu, String score) {
         //  组装数据
         ContentValues cv = new ContentValues();
         cv.put(DBOpenHelper.TIMES, times);
@@ -53,11 +53,10 @@ public class dbManager {
             ArrayList<Record> RecordList = new ArrayList<Record>();
             while (cursor.moveToNext()) {
                 Record r = new Record();
-                r.setTimes(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.TIMES)));
-                r.setTimeu(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.TIMEU)));
-                r.setScore(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.SCORE)));
+                r.setTimes(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TIMES)));
+                r.setTimeu(cursor.getString(cursor.getColumnIndex(DBOpenHelper.TIMEU)));
+                r.setScore(cursor.getString(cursor.getColumnIndex(DBOpenHelper.SCORE)));
                 RecordList.add(r);
-                System.out.println(r.getScore());
             }
             return RecordList;
         } catch (Exception e) {
@@ -66,12 +65,16 @@ public class dbManager {
         return null;
     }
 
+    public void resetDB(){
+        dbWriter.execSQL(" DROP TABLE IF EXISTS "+DBOpenHelper.TABLE_NAME);
+        dbWriter.execSQL(" CREATE TABLE "+DBOpenHelper.TABLE_NAME+ " ( time_start text,time_used text,score text )");
+    }
 }
 
 class DBOpenHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "QBomb";
     public static final String TABLE_NAME = "record";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
     public static final String TIMEU = "time_used";
     public static final String TIMES = "time_start";
     public static final String SCORE = "score";
@@ -82,16 +85,17 @@ class DBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
         sqLiteDatabase.execSQL("create table " + TABLE_NAME + " ("
-                + TIMES + " integer,"
-                + TIMEU + " integer,"
-                + SCORE + " integer"+")");
+                + TIMES + " text,"
+                + TIMEU + " text,"
+                + SCORE + " text"+")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if (newVersion>oldVersion){
-            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS contacts");
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
             this.onCreate(sqLiteDatabase);
         }
     }

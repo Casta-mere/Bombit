@@ -11,13 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Manager.dbManager;
 import com.example.myfunctions.RankingAdapter;
+import com.example.myfunctions.Record;
 import com.example.qbomb.R;
+
+import java.util.ArrayList;
 
 public class GameRank extends AppCompatActivity implements View.OnClickListener {
 
     private Button rank_back;
     private RecyclerView recyclerView;
+    private dbManager dbm;
+    private ArrayList<Record> RecordList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +50,29 @@ public class GameRank extends AppCompatActivity implements View.OnClickListener 
         try {
             recyclerView = findViewById(R.id.ranking_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(GameRank.this));
-            RankingAdapter adapter = new RankingAdapter(new int[] {1,2,3});
-            recyclerView.setAdapter(adapter);
+            for(int j=0;j<RecordList.size();j++) {
+                String[] temp = {RecordList.get(j).getScore(),RecordList.get(j).getTimes(),RecordList.get(j).getTimeu()};
+                RankingAdapter adapter = new RankingAdapter(temp);
+                recyclerView.setAdapter(adapter);
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
     private void getFromDB() {
-
+        dbm.resetDB();
+        dbm.insert_record("13:02","01:09","5000");
+        dbm.insert_record("15:15","02:54","3600");
+        RecordList = dbm.select_record();
+        System.out.println(RecordList.size());
     }
 
     private void initView() {
         rank_back = findViewById(R.id.rank_back);
         rank_back.setOnClickListener(this);
+        dbm = new dbManager(this);
+        RecordList = new ArrayList<Record>();
     }
 
     @Override

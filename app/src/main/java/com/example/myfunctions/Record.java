@@ -1,31 +1,31 @@
 package com.example.myfunctions;
 
 public class Record {
-    private int times;
-    private int timeu;
-    private int score;
+    private String times;
+    private String timeu;
+    private String score;
 
-    public int getTimes() {
+    public String getTimes() {
         return times;
     }
 
-    public void setTimes(int times) {
+    public void setTimes(String times) {
         this.times = times;
     }
 
-    public int getTimeu() {
+    public String getTimeu() {
         return timeu;
     }
 
-    public void setTimeu(int timeu) {
+    public void setTimeu(String timeu) {
         this.timeu = timeu;
     }
 
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
