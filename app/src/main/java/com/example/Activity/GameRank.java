@@ -63,13 +63,13 @@ public class GameRank extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void getFromDB() {
-        dbm.resetDB();
-        dbm.insert_record("13:02","01:09","5000");
-        dbm.insert_record("15:15","02:54","3600");
-        dbm.insert_record("16:24","01:13","2200");
-        dbm.insert_record("17:18","03:00","1000");
-        dbm.insert_record("18:44","02:13","4700");
-        dbm.insert_record("18:44","02:13","4700");
+//        dbm.resetDB();
+//        dbm.insert_record("13:02","01:09","5000");
+//        dbm.insert_record("15:15","02:54","3600");
+//        dbm.insert_record("16:24","01:13","2200");
+//        dbm.insert_record("17:18","03:00","1000");
+//        dbm.insert_record("18:44","02:13","4700");
+//        dbm.insert_record("18:44","02:13","4700");
         RecordList = dbm.select_record();
     }
 

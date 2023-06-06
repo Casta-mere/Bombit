@@ -333,9 +333,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void onGameLose(int time,int life,int stateScore) {
-        int score = 100*stateScore+(60*MaxTime-time)*10;
+        int score = 100*stateScore+(60*MaxTime-time)*10+1000;
         Intent intent = new Intent(GameActivity.this, GameLose.class);
-        intent.putExtra("time", time);
+        String timeString =String.format("%02d:%02d", time / 60, time % 60);
+        intent.putExtra("time", timeString);
         intent.putExtra("life", life);
         intent.putExtra("startTime",startTime);
         intent.putExtra("score",score);
@@ -346,9 +347,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void onGameWin(int time,int life,int stateScore) {
-        int score = 100*stateScore+(60*MaxTime-time)*10+2000;
+        int score = 100*stateScore+(60*MaxTime-time)*10+3000;
         Intent intent = new Intent(GameActivity.this, GameWin.class);
-        intent.putExtra("time", time);
+        String timeString =String.format("%02d:%02d", time / 60, time % 60);
+        intent.putExtra("time", timeString);
         intent.putExtra("life", life);
         intent.putExtra("startTime",startTime);
         intent.putExtra("score",score);
@@ -359,9 +361,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void onGameTie(int time,int life,int stateScore) {
-        int score = 100*stateScore+(60*MaxTime-time)*10+1000;
+        int score = 100*stateScore+(60*MaxTime-time)*10+2000;
         Intent intent = new Intent(GameActivity.this, GameTie.class);
-        intent.putExtra("time", time);
+        String timeString =String.format("%02d:%02d", time / 60, time % 60);
+        intent.putExtra("time", timeString);
         intent.putExtra("life", life);
         intent.putExtra("startTime",startTime);
         intent.putExtra("score",score);

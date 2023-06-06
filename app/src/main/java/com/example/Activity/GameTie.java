@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.Manager.dbManager;
 import com.example.myfunctions.MusicPlayer;
 import com.example.qbomb.R;
 
@@ -18,6 +19,7 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
     private Button next;
     private TextView timeView;
     private TextView liveView;
+    private dbManager dbm;
     private MusicPlayer music= new MusicPlayer();
 
     @Override
@@ -41,10 +43,13 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
 
     private void initData() {
         Intent intent = getIntent();
-        int time = intent.getIntExtra("time",0);
+        String time = intent.getStringExtra("time");
         int live = intent.getIntExtra("live",0);
-        timeView.setText(String.valueOf(time)+"s");
+        String times = intent.getStringExtra("startTime");
+        int score = intent.getIntExtra("score",0);
+        timeView.setText(time);
         liveView.setText(String.valueOf(live));
+        dbm.insert_record(times,time,String.valueOf(score));
     }
 
     private void initView() {
@@ -56,6 +61,7 @@ public class GameTie extends AppCompatActivity implements View.OnClickListener {
         liveView = findViewById(R.id.tie_live);
         music=new MusicPlayer();
         music.play(this,R.raw.tie_bg,false);
+        dbm = new dbManager(this);
     }
 
     @Override
