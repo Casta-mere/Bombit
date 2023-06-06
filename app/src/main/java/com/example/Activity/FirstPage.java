@@ -16,8 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfunctions.MusicService;
+import com.example.myfunctions.RankingAdapter;
 import com.example.qbomb.R;
 
 public class FirstPage extends AppCompatActivity implements View.OnClickListener {
@@ -28,8 +31,6 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
     private ImageView board;
 
     private RelativeLayout rl;
-
-
 
     private MusicService musicService;
     private ServiceConnection serviceConnection=new ServiceConnection() {
@@ -70,6 +71,8 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         musicService.play(this,R.raw.first_bg,true);
         Intent intent = new Intent(FirstPage.this, MusicService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        //游戏提示
         rl.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -79,6 +82,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
                 return true;
             }
         });
+
     }
 
     private void initView() {
@@ -86,8 +90,13 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         startGame.setOnClickListener(this);
         gameTips = findViewById(R.id.game_tips);
         gameTips.setOnClickListener(this);
+        Rankings = findViewById(R.id.ranking);
+        Rankings.setOnClickListener(this);
         rl = findViewById(R.id.page_1);
         board = findViewById(R.id.board);
+
+
+
 
     }
 
@@ -101,6 +110,11 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
             finish();
         }else if(id == R.id.game_tips){
             board.setVisibility(View.VISIBLE);
+        }else if (id == R.id.ranking) {
+            Intent intent = new Intent(FirstPage.this, GameRank.class);
+            startActivity(intent);
+            FirstPage.this.overridePendingTransition(0, 0);
+            finish();
         }
 
     }

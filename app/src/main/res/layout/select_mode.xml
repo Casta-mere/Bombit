@@ -64,7 +64,6 @@
                         android:text="普通模式"
                         android:textSize="24sp"
                         android:fontFamily="@font/chn_string"
-                        android:textStyle="bold"
                         android:textColor="@color/white"/>
 
                 </FrameLayout>
@@ -88,7 +87,6 @@
                         android:text="薄纱模式"
                         android:textSize="24sp"
                         android:fontFamily="@font/chn_string"
-                        android:textStyle="bold"
                         android:textColor="@color/white"
                         android:visibility="invisible"/>
 

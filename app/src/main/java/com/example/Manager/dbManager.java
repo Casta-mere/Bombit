@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.myfunctions.Record;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class dbManager {
     }
 
     //  读取数据
-    public void select_record() {
+    public ArrayList<Record> select_record() {
         Cursor cursor = dbReader.query(DBOpenHelper.TABLE_NAME, null, null, null, null, null, null);
         try {
             ArrayList<Record> RecordList = new ArrayList<Record>();
@@ -56,12 +58,12 @@ public class dbManager {
                 r.setScore(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.SCORE)));
                 RecordList.add(r);
                 System.out.println(r.getScore());
-
             }
+            return RecordList;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return null;
     }
 
 }
@@ -95,35 +97,3 @@ class DBOpenHelper extends SQLiteOpenHelper {
     }
 }
 
-class Record {
-    private int times;
-    private int timeu;
-    private int score;
-
-    public int getTimes() {
-        return times;
-    }
-
-    public void setTimes(int times) {
-        this.times = times;
-    }
-
-    public int getTimeu() {
-        return timeu;
-    }
-
-    public void setTimeu(int timeu) {
-        this.timeu = timeu;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-
-
-}

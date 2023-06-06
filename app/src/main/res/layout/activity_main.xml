@@ -71,12 +71,12 @@
                     android:visibility="invisible"
                     android:src="@drawable/arrow_fig_select" />
 
-                <ImageView
+                <Button
                     android:id="@+id/ranking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/ranking" />
+                    android:background="@drawable/ranking" />
 
             </RelativeLayout>
 
