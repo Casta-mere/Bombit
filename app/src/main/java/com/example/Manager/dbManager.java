@@ -48,7 +48,7 @@ public class dbManager {
 
     //  读取数据
     public ArrayList<Record> select_record() {
-        Cursor cursor = dbReader.query(DBOpenHelper.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = dbReader.query(DBOpenHelper.TABLE_NAME, null, null, null, null, null, "score DESC","5");
         try {
             ArrayList<Record> RecordList = new ArrayList<Record>();
             while (cursor.moveToNext()) {
