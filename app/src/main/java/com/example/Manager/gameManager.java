@@ -98,9 +98,9 @@ public class gameManager extends View implements BombListener, WaveListener, Pla
         my_robots.add(robot3);
     }
     public void setHard(){
-        my_robots.get(0).setState(new int[]{1, 3, 300, 1});
-        my_robots.get(1).setState(new int[]{1, 2, 400, 1});
-        my_robots.get(2).setState(new int[]{3, 3, 200, 1});
+        my_robots.get(0).setState(new int[]{2, 1, 300, 1});
+        my_robots.get(1).setState(new int[]{2, 2, 400, 1});
+        my_robots.get(2).setState(new int[]{3, 1, 200, 1});
     }
     public void setEasy(){
         player1.setState(new int[]{2, 4, 300, 2});

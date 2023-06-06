@@ -89,8 +89,9 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         getWindow().setDecorFitsSystemWindows(false);
 
         setContentView(R.layout.gamemap);
+        int mode = getIntent().getIntExtra("mode",0);
         initData();
-        initView();
+        initView(mode);
         initMusic();
         initPlayer();
         initConfig();
@@ -156,7 +157,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         bindService(intent,serviceConnection,BIND_AUTO_CREATE);
     }
 
-    private void initView(){
+    private void initView(int mode){
         gameView = findViewById(R.id.gameView);
         btn_up = findViewById(R.id.actionUp);
         btn_down = findViewById(R.id.actionDown);
@@ -171,7 +172,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         btn_bomb.setOnTouchListener(this);
 
         gameView.setGameListener(this);
-        gameView.setMap(map.mapDataList.get((int) (Math.random()*6)));
+        if(mode==1)
+            gameView.setMap(map.mapDataList.get(7));
+        else
+            gameView.setMap(map.mapDataList.get((int) (Math.random()*6)));
 //        gameView.setMap(map.mapDataList.get(6));
         gameView.initProps();
     }
